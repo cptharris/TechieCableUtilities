@@ -55,7 +55,7 @@ GuiControl,, SetupProgress, +10
 ; FileInstall, TCU\TCU.rtf, TechieCableUtilities\TCU.rtf, True
 
 ; Add the ahk file
-FileInstall, TCU\TechieCableUtilities.ahk, TechieCableUtilities.ahk, True
+UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
 
 Sleep, 100
 GuiControl,, SetupProgress, +30

@@ -11,6 +11,9 @@ if !FileExist("ahk.zip") {
 	UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, ahk.zip
 }
 
+; Download TechieCableUtilities.ahk
+UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
+
 Sleep, 100
 GuiControl,, LaunchProgress, +50
 
