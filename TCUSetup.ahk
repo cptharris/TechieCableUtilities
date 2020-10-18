@@ -61,7 +61,7 @@ Sleep, 100
 GuiControl,, SetupProgress, +30
 
 ; Add the primary .exe
-FileInstall, TCU\TCULauncher.exe, TCULauncher.exe, True
+FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, TCULauncher.exe, True
 
 Sleep, 100
 GuiControl,, SetupProgress, +20
