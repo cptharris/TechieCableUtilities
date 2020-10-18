@@ -55,13 +55,13 @@ GuiControl,, SetupProgress, +10
 ; FileInstall, TCU\TCU.rtf, TechieCableUtilities\TCU.rtf, True
 
 ; Add the ahk file
-UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
+UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
 
 Sleep, 100
 GuiControl,, SetupProgress, +30
 
 ; Add the primary .exe
-FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, TCULauncher.exe, True
+FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, True
 
 Sleep, 100
 GuiControl,, SetupProgress, +20
