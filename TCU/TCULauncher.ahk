@@ -11,6 +11,13 @@ if !FileExist("ahk.zip") {
 	UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, ahk.zip
 }
 
+IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
+if %TechieCablePID% not contains CLOSED
+{
+	Process, Close, %TechieCablePID%
+	Process, WaitClose, %TechieCablePID%
+}
+
 ; Download TechieCableUtilities.ahk
 UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
 
@@ -34,6 +41,8 @@ if !FileExist("TCU.ini")
 
 Sleep, 100
 GuiControl,, LaunchProgress, +20
+
+FileSetAttrib, +RH, ahk.zip
 
 ; Run TechieCableUtilities
 Run %A_scriptdir%\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
