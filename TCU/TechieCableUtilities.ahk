@@ -10,6 +10,8 @@ if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
 
+#Include *i Addon.txt
+
 ; Create variables
 AOTCONFIG := 0
 TouchPadCONFIG := 0
@@ -202,5 +204,6 @@ SpecCharsAction:
 		:*:`~=::{U+2248}
 		:*:`<=::{U+2264}
 		:*:`>=::{U+2265}
+		#Include *i SpecChars.txt
 	#If
 return
