@@ -10,8 +10,6 @@ if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
 
-#Include *i Addon.txt
-
 ; Create variables
 AOTCONFIG := 0
 TouchPadCONFIG := 0
@@ -20,6 +18,10 @@ touchpadEnabled := False ; Assume so on start
 
 ; Write the PID to the .ini - used to operate on the process
 IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
+
+; ******************** CUSTOM FILES ********************
+
+#Include *i addon.txt
 
 ; ******************** Check TCU.ini ********************
 
@@ -39,12 +41,23 @@ IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, "FALSE" ; Is Tou
 
 ; ******************** TRAY MENU ********************
 
+; TopMenu
+Menu, TopMenu, Add, Website, Top_Web
+Menu, TopMenu, Add, Remove TCU, Top_Remove
+
 ; OptionsMenu
 Menu, OptionsMenu, Add, AlwaysOnTop, AOTCONFIG
 Menu, OptionsMenu, Add, TouchPad, TouchPadCONFIG
 Menu, OptionsMenu, Add, SpecChars, SpecCharsCONFIG
 
+; Title of Tray Menu
+Menu, Tray, Add, TechieCableUtilities, :TopMenu
+Menu, Tray, Icon, TechieCableUtilities, TCULauncher.exe, 1, 1
+Menu, Tray, Icon, TechieCableUtilities, %A_IconFile%, %A_IconNumber%
+Menu, Tray, Add
+
 ; Primary Tray Menu
+Menu, Tray, Add
 Menu, Tray, Add, Options (Hotkeys), :OptionsMenu ; Add the Options sub-menu
 Menu, Tray, Add
 Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
@@ -135,6 +148,8 @@ SpecCharsCONFIG:
 	FileRead, lastFileContent, TCU.ini
 return
 
+; ******************** OTHER ACTIONS ********************
+
 TouchPadAction:
 	Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel
 	MENU, Tray, ToggleCheck, TouchPadToggle
@@ -154,6 +169,13 @@ checkFile:
 	}
 return
 
+; ***** CUSTOM SCRIPT *****
+addon:
+	#Include *i gosub.txt
+return
+
+; ******************** GENERAL FUNCTIONS ********************
+
 OpenDirectory:
 	Run, %A_scriptdir%
 return
@@ -165,6 +187,11 @@ EXIT:
 	IniWrite, CLOSED, TCU.ini, about, PID
 	ExitApp
 exit
+Blank:
+	
+return
+
+; ******************** SPECIAL CHARACTERS ********************
 
 SpecCharsAction:
 	#EscapeChar |
@@ -205,5 +232,22 @@ SpecCharsAction:
 		:*:`<=::{U+2264}
 		:*:`>=::{U+2265}
 		#Include *i SpecChars.txt
+		#EscapeChar `
 	#If
+return
+
+; ******************** TOPMENU FUNCTIONS ********************
+Top_Web:
+	Run https://techiecable.github.io
+return
+Top_Remove:
+	commands=
+	(join&
+@echo off
+cd ..
+timeout /t 2 /nobreak>nul
+rmdir /s /q "TechieCableUtilities"
+	)
+	Run, %comspec% /c %commands%
+	ExitApp
 return
