@@ -1,3 +1,5 @@
+version = 1.0.4
+
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
 #SingleInstance Force
@@ -9,6 +11,8 @@ setworkingdir, %A_scriptdir%
 if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
+
+IniWrite, %version%, TCU.ini, about, version
 
 ; Create variables
 AOTCONFIG := 0
@@ -42,6 +46,7 @@ IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, "FALSE" ; Is Tou
 ; ******************** TRAY MENU ********************
 
 ; TopMenu
+Menu, TopMenu, Add, Version v%version%, blank
 Menu, TopMenu, Add, Website, Top_Web
 Menu, TopMenu, Add, Remove TCU, Top_Remove
 
@@ -188,7 +193,6 @@ EXIT:
 	ExitApp
 exit
 Blank:
-	
 return
 
 ; ******************** SPECIAL CHARACTERS ********************
