@@ -63,6 +63,9 @@ GuiControl,, SetupProgress, +30
 ; Add the primary .exe
 FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, True
 
+; Add the TouchpadToggle .exe
+FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TouchpadToggle.exe, %dir%\TouchpadToggle.exe, True
+
 Sleep, 100
 GuiControl,, SetupProgress, +20
 
