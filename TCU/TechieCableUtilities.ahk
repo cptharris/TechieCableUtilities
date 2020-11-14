@@ -58,7 +58,6 @@ Menu, OptionsMenu, Add, SpecChars, SpecCharsCONFIG
 ; Title of Tray Menu
 Menu, Tray, Add, TechieCableUtilities, :TopMenu
 Menu, Tray, Icon, TechieCableUtilities, TCULauncher.exe, 1, 1
-Menu, Tray, Icon, TechieCableUtilities, %A_IconFile%, %A_IconNumber%
 Menu, Tray, Add
 
 ; Primary Tray Menu
@@ -156,7 +155,9 @@ return
 ; ******************** OTHER ACTIONS ********************
 
 TouchPadAction:
-	Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel
+	; Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel
+	touchpadEnabled := !touchpadEnabled
+	Run, TouchpadToggle.exe %touchpadEnabled%
 	MENU, Tray, ToggleCheck, TouchPadToggle
 return
 

@@ -21,6 +21,20 @@ if %TechieCablePID% not contains CLOSED
 ; Download TechieCableUtilities.ahk
 UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
 
+
+
+UrlDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/TouchpadToggle.ahk, TouchpadToggle.ahk
+UrlDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/mouse.ico, mouse.ico
+
+Run %A_scriptdir%\ahk.zip\compiler\ahk2exe.exe "/in T:\Program_Files\atom-portable\github\TechieCableUtilities\TCU\TouchpadToggle.ahk /icon T:\Program_Files\atom-portable\github\TechieCableUtilities\TCU\mouse.ico"
+
+commands = 
+	(join&
+DEL TouchpadToggle.ahk
+DEL mouse.ico
+)
+Run, %comspec% %commands%
+
 Sleep, 100
 GuiControl,, LaunchProgress, +50
 
