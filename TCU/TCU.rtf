@@ -12,7 +12,6 @@ TCU currently includes:\par
 
 \pard\sa200\sl276\slmult1 TCU comes with some simple options for its users.\par
 \par
-\par
 Note: stars * in the brackets [] represent level of difficulty, with five [*****] being most difficult and one [*] being least difficult\par
 Note: The parentheses () note what the instructions apply to\par
 \tab\tab ex: (General), (AlwaysOnTop)\par
@@ -44,9 +43,9 @@ disable_loading=TRUE\par
 \par
 \b Use a custom icon for the options menu\b0  [***] (General)\par
 
-\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Replace \i settings_cog.ico\i0  with your own .ico file\i\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Replace \i data\\settings_cog.ico\i0  with your own .ico file\i\par
 {\pntext\f3\'B7\tab}\i0 Reload the program\i\par
-{\pntext\f3\'B7\tab}\i0 **To revert to the original, simply delete \i settings_cog.ico\i0  and restart the program\i\par
+{\pntext\f3\'B7\tab}\i0 **To revert to the original, simply delete \i data\\settings_cog.ico\i0  and restart the program\i\par
 
 \pard\sa200\sl276\slmult1\i0\par
 \b Delete TechieCableUtilities\b0  [*] (General)\par
@@ -84,6 +83,7 @@ To do this, you can either delete TechieCableUtilities' folder or use the built-
 {\pntext\f3\'B7\tab}Left-click "TouchPadToggle"\par
 
 \pard\sa200\sl276\slmult1 *TouchPad only works on some computers and requires a touchpad to be included in the computer. Please check if your computer has a touchpad before using\par
+*TouchPad relies on an external script (data\\TouchpadToggle.exe) to work. You may have to allow this program through your security/antivirus program\par
 \par
 \b Type special characters\b0  [*] (SpecChars)\par
 
@@ -138,8 +138,8 @@ Not satisfied with the Special Characters added here? Read below to add your own
 \par
 \b Addons\b0  [*****] (General)\par
 
-\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 TechieCableUtilities searches its directory for a file called \cf1 addon.txt\cf0  and runs anything in that file\par
-{\pntext\f3\'B7\tab}If you need to add a callable function, put it in a file called \cf1 gosub.txt\cf0  and call it with "gosub" or a timer in the addon.txt file\par
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 TechieCableUtilities searches its data directory for a file called \cf1 addon.txt\cf0  and runs anything in that file\par
+{\pntext\f3\'B7\tab}If you need to add a callable function, put it in a file called \cf1 gosub.txt\cf0  (in the data directory) and call it with "gosub" or a timer in the addon.txt file\par
 {\pntext\f3\'B7\tab}If you are feeling really adventurous, try adding code into this file (in AutoHotkey)!\par
 {\pntext\f3\'B7\tab}TechieCableUtilities is written in AutoHotkey, which you can learn more about at {{\field{\*\fldinst{HYPERLINK www.autohotkey.com }}{\fldrslt{www.autohotkey.com\ul0\cf0}}}}\f0\fs22\par
 }
