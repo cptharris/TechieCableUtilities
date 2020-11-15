@@ -1,4 +1,4 @@
-version = 1.0.4
+version = 1.0.5
 
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
@@ -18,7 +18,7 @@ IniWrite, %version%, TCU.ini, about, version
 AOTCONFIG := 0
 TouchPadCONFIG := 0
 SpecCharsCONFIG := 0
-touchpadEnabled := False ; Assume so on start
+touchpadEnabled := 0 ; Assume so on start
 
 ; Write the PID to the .ini - used to operate on the process
 IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
@@ -57,11 +57,9 @@ Menu, OptionsMenu, Add, SpecChars, SpecCharsCONFIG
 
 ; Title of Tray Menu
 Menu, Tray, Add, TechieCableUtilities, :TopMenu
-Menu, Tray, Icon, TechieCableUtilities, TCULauncher.exe, 1, 1
 Menu, Tray, Add
 
 ; Primary Tray Menu
-Menu, Tray, Add
 Menu, Tray, Add, Options (Hotkeys), :OptionsMenu ; Add the Options sub-menu
 Menu, Tray, Add
 Menu, Tray, NoStandard ; Remove default AHK tray menu buttons

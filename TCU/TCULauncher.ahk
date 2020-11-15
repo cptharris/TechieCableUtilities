@@ -1,10 +1,15 @@
 setworkingdir, %A_scriptdir%
 
+IniRead, disable_loading, TCU.ini, disabled, disable_loading, FALSE
+
 ; Add the loading screen for startup
 GUI, New, +AlwaysOnTop -Border, TCULauncher
 Gui, Add, Text, x1 y2 w230 h80 +Center, Loading TechieCableUtilities...
 Gui, Add, Progress, w230 h50 cBlue vLaunchProgress, 0
-Gui, Show, AutoSize Center, TCULauncher
+if (disable_loading = "FALSE")
+{
+	Gui, Show, AutoSize Center, TCULauncher
+}
 
 ; Download AHK
 if !FileExist("ahk.zip") {
