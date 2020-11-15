@@ -1,4 +1,4 @@
-version = 1.0.5
+version = 1.0.6
 
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
@@ -25,7 +25,7 @@ IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
 
 ; ******************** CUSTOM FILES ********************
 
-#Include *i addon.txt
+#Include *i data\addon.txt
 
 ; ******************** Check TCU.ini ********************
 
@@ -72,7 +72,7 @@ Menu, Tray, Add, Exit, EXIT ; Add an exit button
 
 ; Other Tray Menu Things
 Menu, Tray, Default, Options (Hotkeys) ; Set the options menu to the default
-Menu, Tray, Icon, Options (Hotkeys), settings_cog.ico
+Menu, Tray, Icon, Options (Hotkeys), data\settings_cog.ico
 Menu, Tray, Tip, TechieCableUtilities ; Tooltip
 
 ; ******************** CHECK MARKS & DISABLED ITEMS ********************
@@ -155,7 +155,7 @@ return
 TouchPadAction:
 	; Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel
 	touchpadEnabled := !touchpadEnabled
-	Run, TouchpadToggle.exe %touchpadEnabled%
+	Run, data\TouchpadToggle.exe %touchpadEnabled%
 	MENU, Tray, ToggleCheck, TouchPadToggle
 return
 
@@ -175,7 +175,7 @@ return
 
 ; ***** CUSTOM SCRIPT *****
 addon:
-	#Include *i gosub.txt
+	#Include *i data\gosub.txt
 return
 
 ; ******************** GENERAL FUNCTIONS ********************
@@ -234,7 +234,7 @@ SpecCharsAction:
 		:*:`~=::{U+2248}
 		:*:`<=::{U+2264}
 		:*:`>=::{U+2265}
-		#Include *i SpecChars.txt
+		#Include *i data\SpecChars.txt
 		#EscapeChar `
 	#If
 return
