@@ -16,7 +16,7 @@ IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
 
 ; ***** STARTUP *****
 
-if (disable_loading = "FALSE")
+if (disable_loading = 1)
 {
 	; Add the loading screen for startup
 	GUI, New, +AlwaysOnTop -Border, TCULauncher

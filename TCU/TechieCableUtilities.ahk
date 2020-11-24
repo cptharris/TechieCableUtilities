@@ -36,12 +36,12 @@ setTimer, checkFile, 10000
 
 ; Load the config on start
 IniRead, AOTCONFIG, TCU.ini, config, AOT, 1 ; Is AOT turned on?
-IniRead, TouchPadCONFIG, TCU.ini, config, TouchPad, 1 ; Is TouchPad turned on?
+IniRead, TouchPadCONFIG, TCU.ini, config, TouchPad, 0 ; Is TouchPad turned on?
 IniRead, SpecCharsCONFIG, TCU.ini, config, SpecChars, 0 ; Is SpecChars turned on?
 
 ; Load permanently disabled items on start
-IniRead, disable_AOT, TCU.ini, disabled, disable_AOT, "FALSE" ; Is AOT disabled?
-IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, "FALSE" ; Is TouchPad disabled? 
+IniRead, disable_AOT, TCU.ini, disabled, disable_AOT, 0 ; Is AOT disabled?
+IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, 0 ; Is TouchPad disabled? 
 
 ; ******************** TRAY MENU ********************
 
@@ -78,28 +78,23 @@ Menu, Tray, Tip, TechieCableUtilities ; Tooltip
 ; ******************** CHECK MARKS & DISABLED ITEMS ********************
 
 ; Set the Check on start
-if (AOTCONFIG = 1)
-{
+if (AOTCONFIG = 1) {
 	MENU, OptionsMenu, Check, AlwaysOnTop ; AOT checkmark
 }
-if (TouchPadCONFIG = 1)
-{
+if (TouchPadCONFIG = 1) {
 	MENU, OptionsMenu, Check, TouchPad ; TouchPad checkmark
 }
-if (SpecCharsCONFIG = 1)
-{
+if (SpecCharsCONFIG = 1) {
 	Menu, OptionsMenu, Check, SpecChars ; SpecChars checkmark
 }
 
 ; Disable Menu Items
-if (disable_AOT = "TRUE")
-{
+if (disable_AOT = 1) {
 	AOTCONFIG := 0
 	MENU, OptionsMenu, Disable, AlwaysOnTop
 	IniWrite, %AOTCONFIG%, TCU.ini, config, AOT
 }
-if (disable_TouchPad = "TRUE")
-{
+if (disable_TouchPad = 1) {
 	TouchPadCONFIG := 0
 	MENU, OptionsMenu, Disable, TouchPad
 	MENU, Tray, Disable, TouchPadToggle
@@ -183,14 +178,16 @@ return
 OpenDirectory:
 	Run, %A_scriptdir%
 return
-exit
+
 RELOAD:
 	Reload
 exit
+
 EXIT:
 	IniWrite, CLOSED, TCU.ini, about, PID
 	ExitApp
 exit
+
 Blank:
 return
 
