@@ -1,4 +1,4 @@
-version = 1.0.6
+version = 1.0.7
 
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
@@ -20,6 +20,10 @@ TouchPadCONFIG := 0
 SpecCharsCONFIG := 0
 touchpadEnabled := 0 ; Assume so on start
 
+AOT_key=""
+AOTMenu_key=""
+TouchPad_key=""
+
 ; Write the PID to the .ini - used to operate on the process
 IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
 
@@ -38,6 +42,11 @@ setTimer, checkFile, 10000
 IniRead, AOTCONFIG, TCU.ini, config, AOT, 1 ; Is AOT turned on?
 IniRead, TouchPadCONFIG, TCU.ini, config, TouchPad, 0 ; Is TouchPad turned on?
 IniRead, SpecCharsCONFIG, TCU.ini, config, SpecChars, 0 ; Is SpecChars turned on?
+
+; Load the hotkeys on start
+IniRead, AOT_key, TCU.ini, hotkey, AOT_key, ^!+Space
+IniRead, AOTMenu_key, TCU.ini, hotkey, AOTMenu_key, ^!+Up
+IniRead, TouchPad_key, TCU.ini, hotkey, TouchPad_key, ^F2
 
 ; Load permanently disabled items on start
 IniRead, disable_AOT, TCU.ini, disabled, disable_AOT, 0 ; Is AOT disabled?
@@ -104,14 +113,16 @@ if (disable_TouchPad = 1) {
 ; ******************** HOTKEY ACTIONS ********************
 
 ; Only perform actions when set to "on"
-#IF (AOTCONFIG = 1)
-	^!+Space::Winset, Alwaysontop, , A
-#IF TouchPadCONFIG = 1
-	^F2::Gosub, TouchPadAction
+if (AOTCONFIG = 1) {
+	Hotkey, %AOT_key%, AOTAction, On
+	Hotkey, %AOTMenu_key%, AOTMenuAction, On
+}
+if (TouchPadCONFIG = 1) {
+	Hotkey, %TouchPad_key%, TouchPadAction, On
+}
 if (SpecCharsCONFIG = 1) {
 	Gosub, SpecCharsAction
 }
-#IF
 
 ; ---------------------------------------------------------
 ; |*******************************************************|
@@ -128,6 +139,14 @@ AOTCONFIG:
 	MENU, OptionsMenu, ToggleCheck, AlwaysOnTop
 	IniWrite, %AOTCONFIG%, TCU.ini, config, AOT
 	FileRead, lastFileContent, TCU.ini
+	
+	if (AOTCONFIG = 1) {
+		Hotkey, %AOT_key%, AOTAction, On
+		Hotkey, %AOTMenu_key%, AOTMenuAction, On
+	} else {
+		Hotkey, %AOT_key%, AOTAction, Off
+		Hotkey, %AOTMenu_key%, AOTMenuAction, Off
+	}
 return
 
 ; Set checkmark, write to .ini file for TouchPad
@@ -136,6 +155,12 @@ TouchPadCONFIG:
 	MENU, OptionsMenu, ToggleCheck, TouchPad
 	IniWrite, %TouchPadCONFIG%, TCU.ini, config, TouchPad
 	FileRead, lastFileContent, TCU.ini
+	
+	if (TouchPadCONFIG = 1) {
+		Hotkey, %TouchPad_key%, TouchPadAction, On
+	} else {
+		Hotkey, %TouchPad_key%, TouchPadAction, Off
+	}
 return
 
 SpecCharsCONFIG:
@@ -146,6 +171,33 @@ SpecCharsCONFIG:
 return
 
 ; ******************** OTHER ACTIONS ********************
+
+AOTAction:
+	Winset, Alwaysontop, , A
+return
+
+AOTMenuAction:
+	try {
+		Menu, AOTMenu, DeleteAll
+	}
+	MenuFunction := func("AOTFunction")
+	Menu, AOTMenu, Add, AlwaysOnTop Selector, Blank
+	Menu, AOTMenu, Add
+	WinGet windows, List
+	Loop %windows% {
+		id := windows%A_Index%
+		WinGetTitle wt, ahk_id %id%
+		if (wt != "") {
+			Menu, AOTMenu, Add, %wt%, % MenuFunction
+		}
+	}
+	Menu, AOTMenu, Add
+	Menu, AOTMenu, Add, Choose ^^ to pin, Blank
+	Menu, AOTMenu, Show
+	AOTFunction(ItemName) {
+		WinSet, AlwaysOnTop, Toggle, % ItemName
+	}
+return
 
 TouchPadAction:
 	; Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel

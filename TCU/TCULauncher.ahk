@@ -1,4 +1,4 @@
-version = 1.0.6
+version = 1.0.7
 setworkingdir, %A_scriptdir%
 #NoTrayIcon
 
@@ -9,15 +9,16 @@ ErrorFunc() {
 	return false
 }
 
+SetTimer, Terminate, 300000
+
 ; ***** INI READ *****
 
-IniRead, disable_loading, TCU.ini, disabled, disable_loading, FALSE
+IniRead, disable_loading, TCU.ini, disabled, disable_loading, 0
 IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
 
 ; ***** STARTUP *****
 
-if (disable_loading = 1)
-{
+if (disable_loading != 1) {
 	; Add the loading screen for startup
 	GUI, New, +AlwaysOnTop -Border, TCULauncher
 	Gui, Add, Text, x1 y2 w230 h80 +Center, Loading TechieCableUtilities...
@@ -25,8 +26,7 @@ if (disable_loading = 1)
 	Gui, Show, AutoSize Center, TCULauncher
 }
 
-if %TechieCablePID% not contains CLOSED
-{
+if %TechieCablePID% not contains CLOSED {
 	Process, Close, %TechieCablePID%
 	Process, WaitClose, %TechieCablePID%
 }
@@ -60,8 +60,7 @@ Sleep, 100
 GuiControl,, LaunchProgress, +30
 
 ; Create TCU.ini if it does not exist
-if !FileExist("TCU.ini")
-{
+if !FileExist("TCU.ini") {
 	IniWrite, 1, TCU.ini, config, AOT
 	IniWrite, 0, TCU.ini, config, TouchPad
 	IniWrite, 0, TCU.ini, config, SpecChars
@@ -75,6 +74,15 @@ Run %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilit
 
 ExitApp
 
+GuiClose:
+ExitApp
+GuiEscape:
+ExitApp
+
+Terminate:
+	ExitApp
+return
+
 update:
 	FileReadLine, upVersion, TechieCableUtilities.ahk, 1
 	upVersion := StrReplace(upVersion, "version = ","")
@@ -85,8 +93,7 @@ update:
 		IfMsgBox, OK
 			UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe, %A_Desktop%\TCUSetup.exe
 			Run, %A_Desktop%\TCUSetup.exe "1"
-			if %TechieCablePID% not contains CLOSED
-			{
+			if %TechieCablePID% not contains CLOSED {
 				Process, Close, %TechieCablePID%
 				Process, WaitClose, %TechieCablePID%
 			}
