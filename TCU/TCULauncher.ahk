@@ -1,4 +1,4 @@
-version = 1.0.7
+version = 1.0.8
 ; WRITTEN BY TECHIECABLE
 
 setworkingdir, %A_scriptdir%
