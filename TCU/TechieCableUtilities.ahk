@@ -1,4 +1,5 @@
 version = 1.0.7
+; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
@@ -20,9 +21,9 @@ TouchPadCONFIG := 0
 SpecCharsCONFIG := 0
 touchpadEnabled := 0 ; Assume so on start
 
-AOT_key=""
-AOTMenu_key=""
-TouchPad_key=""
+AOT_key=^!+Space
+AOTMenu_key=^!+Up
+TouchPad_key=^F2
 
 ; Write the PID to the .ini - used to operate on the process
 IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
@@ -70,6 +71,7 @@ Menu, Tray, Add
 
 ; Primary Tray Menu
 Menu, Tray, Add, Options (Hotkeys), :OptionsMenu ; Add the Options sub-menu
+Menu, Tray, Add, Hotkey Customizer, hotkeyGUI
 Menu, Tray, Add
 Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
 Menu, Tray, Add, TouchPadToggle, TouchPadAction
@@ -80,9 +82,9 @@ Menu, Tray, Add, Reload, RELOAD ; Add a reload button
 Menu, Tray, Add, Exit, EXIT ; Add an exit button
 
 ; Other Tray Menu Things
-Menu, Tray, Default, Options (Hotkeys) ; Set the options menu to the default
+Menu, Tray, Default, TechieCableUtilities ; Set the default menu
 Menu, Tray, Icon, Options (Hotkeys), data\settings_cog.ico
-Menu, Tray, Tip, TechieCableUtilities ; Tooltip
+Menu, Tray, Tip, TechieCableUtilities (v%version%) ; Tooltip
 
 ; ******************** CHECK MARKS & DISABLED ITEMS ********************
 
@@ -204,6 +206,46 @@ TouchPadAction:
 	touchpadEnabled := !touchpadEnabled
 	Run, data\TouchpadToggle.exe %touchpadEnabled%
 	MENU, Tray, ToggleCheck, TouchPadToggle
+return
+
+hotkeyGUI:
+	Hotkey, %AOT_key%, Off
+	Hotkey, %AOTMenu_key%, Off
+	Hotkey, %TouchPad_key%, Off
+	Gui, New, +AlwaysOnTop, TCU Hotkey Customizer
+	Gui, Add, Text, x2 y10 w100 h20, AlwaysOnTop
+	Gui, Add, Hotkey, x2 y30 w150 h30 vAOT_key, %AOT_key%
+	Gui, Add, Text, x2 y60 w100 h20, AOT Menu
+	Gui, Add, Hotkey, x2 y80 w150 h30 vAOTMenu_key, %AOTMenu_key%
+	Gui, Add, Text, x2 y110 w100 h20, TouchPad
+	Gui, Add, Hotkey, x2 y130 w150 h30 vTouchPad_key, %TouchPad_key%
+	Gui, Add, Button, x2 y165 w50 h20 Default gsubmitHotkey, Submit
+	Gui, Add, Button, x55 y165 w50 h20 gcancelHotkey, Cancel
+	Gui, Show, AutoSize Center
+return
+
+submitHotkey:
+	Gui, Submit
+	Gui, Destroy
+	if (AOT_key = "") {
+		AOT_key=^!+Space
+	}
+	if (AOTMenu_key = "") {
+		AOTMenu_key=^!+Up
+	}
+	if (TouchPad_key = "") {
+		TouchPad_key=^F2
+	}
+	IniWrite, %AOT_key%, TCU.ini, hotkey, AOT_key
+	IniWrite, %AOTMenu_key%, TCU.ini, hotkey, AOTMenu_key
+	IniWrite, %TouchPad_key%, TCU.ini, hotkey, TouchPad_key
+	Gosub, RELOAD
+	; Hotkey, %AOT_key%, AOTAction, On
+	; Hotkey, %AOTMenu_key%, AOTMenuAction, On
+	; Hotkey, %TouchPad_key%, TouchPadAction, On
+return
+cancelHotkey:
+	Gui, Destroy
 return
 
 checkFile:

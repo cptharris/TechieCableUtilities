@@ -145,7 +145,7 @@ update:
 	Gui, Add, CheckBox, vDesktopShortcut, Add a new desktop shortcut
 	Gui, Add, CheckBox, vStartFolder Checked, Add TCU to startup again?
 	Gui, Add, Button, Default w80 x140 +Center gButtonFinish, Finish
-	Gui, Add, Text, x0 +Center gLaunchDesktop, The latest TCUSetup was placed on your desktop.`nYou may delete it now. (Click here)
+	Gui, Add, Text, x0 +Center, Removing TCUSetup from your desktop...`nClick finish to complete.
 	Gui, Add, CheckBox, x0 vLaunchHelpFile, Launch the help file.
 	Gui, Show, AutoSize Center, TechieCableUtilities Update Complete
 return
@@ -154,8 +154,13 @@ LaunchDirectory:
 	Run, %dir%
 return
 
-LaunchDesktop:
-	Run, %A_Desktop%
+DeleteDesktop:
+	commands=
+		(join&
+		timeout /t 2 /nobreak>nul
+		del /Q %A_Desktop%\TCUSetup.exe
+	)
+	Run, %comspec% /c "%commands%"
 return
 
 ; ***** WRAP-UP COMMANDS *****
@@ -179,6 +184,7 @@ ButtonFinish:
 	if (StartFolder = 1) {
 		FileCreateShortcut, %dir%\TCULauncher.exe, %A_Startup%\TechieCableUtilities.lnk, %dir%, , TechieCable's Useful Utilities in One! (Launches TCU), %dir%\TCULauncher.exe, , ,
 	}
+	Gosub, DeleteDesktop
 	ExitApp
 return
 

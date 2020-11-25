@@ -1,4 +1,6 @@
 version = 1.0.7
+; WRITTEN BY TECHIECABLE
+
 setworkingdir, %A_scriptdir%
 #NoTrayIcon
 
@@ -8,6 +10,8 @@ ErrorFunc() {
 	ExitApp
 	return false
 }
+
+SetTimer, Terminate, 60000
 
 ; ***** INI READ *****
 
@@ -22,8 +26,19 @@ if %TechieCablePID% not contains CLOSED
 	Process, WaitClose, %TechieCablePID%
 }
 
-if (disable_loading != 1)
+if (disable_loading = 1)
 {
+	Gui, New, +AlwaysOnTop ToolWindow -Border -Caption, TCULauncher
+	Gui, Margin, 0, 0
+	try {
+		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/data/TCUico.gif"
+		Gui, Add, ActiveX, w60 h60, % "mshtml:<img width=60px src='" pic "' />"
+	} catch {
+		Gui, Add, Picture,, TCULauncher.exe
+	}
+	Gui, Show, AutoSize x-10 y-10, TCULauncher
+	WinSet, TransColor, FFFFFF, TCULauncher
+} else {
 	GUI, New, +AlwaysOnTop -Border, TCULauncher
 	Gui, Add, Text, x1 y2 w230 h80 +Center, Loading TechieCableUtilities
 	Gui, Add, Progress, w230 h50 cBlue vLaunchProgress, 0
@@ -73,6 +88,9 @@ GuiControl,, LaunchProgress, +20
 ; Run TechieCableUtilities
 Run %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
 
+ExitApp
+
+Terminate:
 ExitApp
 
 GuiClose:
