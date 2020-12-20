@@ -82,6 +82,7 @@ if !FileExist("TCU.ini")
 	IniWrite, 0, TCU.ini, config, SpecChars
 }
 
+; progressupdate_start
 Sleep, 100
 GuiControl,, LaunchProgress, +20
 
