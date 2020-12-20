@@ -17,7 +17,7 @@ Menu, Tray, Add, Close, EXIT
 Menu, Tray, Tip, TCUSetup in progress...
 
 Gui, New, +AlwaysOnTop -Border, TechieCableUtilities Setup
-Gui, Add, Progress, w380 h20 cBlue vSetupProgress, 0
+Gui, Add, Progress, w380 h20 c6A00A7 vSetupProgress, 0
 Gui, Add, Text, vinstallMessage, Preparing to install TechieCableUtilites...
 Gui, Show, AutoSize Center, TechieCableUtilities Setup
 
@@ -167,7 +167,7 @@ install:
 	Gui, Add, Button, Default w80 x140 +Center gButtonFinish, Finish
 
 	Gui, Add, CheckBox, x0 vLaunchHelpFile, Launch the help file.
-	Gui, Add, Text, x0 +Center cBlue gLaunchDirectory, Find the help file in the `%appdata`% directory (Click here).
+	Gui, Add, Text, x0 +Center c6A00A7 gLaunchDirectory, Find the help file in the `%appdata`% directory (Click here).
 
 	Gui, Show, AutoSize Center, TechieCableUtilities Setup Complete
 return
@@ -206,7 +206,7 @@ ButtonFinish:
 		; Launch the .exe
 		Run, %dir%\TCULauncher.exe
 		if (LaunchHelpFile = 1) {
-			Sleep, 1000
+			Sleep, 5000
 			Run, %dir%\TCU.rtf
 		}
 	}

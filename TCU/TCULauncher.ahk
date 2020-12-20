@@ -40,13 +40,18 @@ if (disable_loading = 1)
 	WinSet, TransColor, FFFFFF, TCULauncher
 } else {
 	GUI, New, +AlwaysOnTop -Border, TCULauncher
-	Gui, Add, Text, x1 y2 w230 h80 +Center, Loading TechieCableUtilities
-	Gui, Add, Progress, w230 h50 cBlue vLaunchProgress, 0
+	Gui, Margin, 0, 0
+	Gui, Add, Progress, w230 h50 c6A00A7 vLaunchProgress, 0
+	Gui, Add, Text, vlaunchMessage, Preparing to launch TechieCableUtilities...
 	Gui, Show, AutoSize Center, TCULauncher
 }
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, LaunchProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, launchMessage, Beginning launch sequence...
+GuiControl,, LaunchProgress, +%rand%
+; progressupdates_end
 
 ; ***** DOWNLOADS *****
 
@@ -56,23 +61,35 @@ if !FileExist("ahk.zip")
 	UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, data\ahk.zip
 }
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, LaunchProgress, +10
+Random, rand, 0, 20
+GuiControl, Text, launchMessage, Checking for ahk files...
+GuiControl,, LaunchProgress, +%rand%
+; progressupdates_end
 
 ; Download TechieCableUtilities.ahk
 UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
 
 Gosub, update
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, LaunchProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, launchMessage, Checking latest version...
+GuiControl,, LaunchProgress, +%rand%
+; progressupdates_end
 
 ; Install the settings_cog.ico and TCU.rtf
 FileInstall, data\settings_cog.ico, data\settings_cog.ico, False
 FileInstall, TCU.rtf, TCU.rtf, True
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, LaunchProgress, +30
+Random, rand, 0, 20
+GuiControl, Text, launchMessage, Installing necessary files...
+GuiControl,, LaunchProgress, +%rand%
+; progressupdates_end
 
 ; Create TCU.ini if it does not exist
 if !FileExist("TCU.ini")
@@ -82,12 +99,21 @@ if !FileExist("TCU.ini")
 	IniWrite, 0, TCU.ini, config, SpecChars
 }
 
-; progressupdate_start
+; progressupdates_start
 Sleep, 100
-GuiControl,, LaunchProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, launchMessage, Updating user settings...
+GuiControl,, LaunchProgress, +%rand%
+; progressupdates_end
 
 ; Run TechieCableUtilities
 Run %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
+
+; progressupdates_start
+Sleep, 1000
+GuiControl, Text, launchMessage, Completed launcher sequence...
+GuiControl,, LaunchProgress, +100
+; progressupdates_end
 
 ExitApp
 
