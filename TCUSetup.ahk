@@ -9,12 +9,24 @@ ErrorFunc() {
 	return true
 }
 
+; ***** TRAY AND GUI *****
+
+Menu, Tray, NoStandard
+Menu, Tray, Add, Restart, RELOAD
+Menu, Tray, Add, Close, EXIT
+Menu, Tray, Tip, TCUSetup in progress...
+
+Gui, New, +AlwaysOnTop -Border, TechieCableUtilities Setup
+Gui, Add, Progress, w380 h20 cBlue vSetupProgress, 0
+Gui, Add, Text, vinstallMessage, Preparing to install TechieCableUtilites...
+Gui, Show, AutoSize Center, TechieCableUtilities Setup
+
+; ***** BACKUP FILES *****
+
 TCUiniEx=0
 AddonEx=0
 GosubEx=0
 SpecCharsEx=0
-
-; ***** BACKUP FILES *****
 
 if FileExist("TCU.ini") {
 	TCUiniEx=1
@@ -33,16 +45,12 @@ if FileExist("data\SpecChars.txt") {
 	FileRead, SpecCharsContents, data\SpecChars.txt
 }
 
-; ***** TRAY AND GUI *****
-
-Menu, Tray, NoStandard
-Menu, Tray, Add, Restart, RELOAD
-Menu, Tray, Add, Close, EXIT
-Menu, Tray, Tip, TCUSetup in progress...
-
-Gui, New, +AlwaysOnTop -Border, TechieCableUtilities Setup
-Gui, Add, Progress, w380 h20 cBlue vSetupProgress, 0
-Gui, Show, AutoSize Center, TechieCableUtilities Setup
+; progressupdates_start
+Sleep, 100
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Attempting to backup files...
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; ***** CLOSE TCU *****
 
@@ -62,35 +70,55 @@ commands=
 )
 Run, %comspec% /c %commands%
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, SetupProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Removing old files...
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; ***** CREATE DIRECTORIES *****
 FileCreateDir, %dir%
 FileCreateDir, %dir%\data
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, SetupProgress, +10
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Creating directories...
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; ***** INSTALL FILES *****
 
 ; Add the ahk file
 UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, SetupProgress, +30
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Installing ahk files...
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; Add the primary .exe
 FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, True
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, SetupProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Installing launcher...
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; Add the TouchpadToggle .exe
 FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, True
 
+; progressupdates_start
 Sleep, 100
-GuiControl,, SetupProgress, +20
+Random, rand, 0, 20
+GuiControl, Text, installMessage, Installing TouchpadToggle
+GuiControl,, SetupProgress, +%rand%
+; progressupdates_end
 
 ; ***** CUSTOM FILES *****
 
@@ -106,6 +134,13 @@ if (GosubEx=1) {
 if (SpecCharsEx=1) {
 	FileAppend, %SpecCharsContents%, data\SpecChars.txt
 }
+
+; progressupdates_start
+Sleep, 100
+GuiControl, Text, installMessage, Wrapping up install...
+GuiControl,, SetupProgress, +100
+Sleep, 1000
+; progressupdates_end
 
 ; ***** POST-INSTALL GUI *****
 
