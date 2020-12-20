@@ -1,4 +1,4 @@
-version = 1.0.8
+version = 1.0.9
 ; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
