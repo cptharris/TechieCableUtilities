@@ -28,11 +28,12 @@ if %TechieCablePID% not contains CLOSED
 
 if (disable_loading = 1)
 {
+	Gui, Color, White
 	Gui, New, +AlwaysOnTop ToolWindow -Border -Caption, TCULauncher
 	Gui, Margin, 0, 0
 	try {
 		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/data/TCUico.gif"
-		Gui, Add, ActiveX, w60 h60, % "mshtml:<img width=60px src='" pic "' />"
+		Gui, Add, ActiveX, w60 h60, % "mshtml:<img width=100% src='" pic "' />"
 	} catch {
 		Gui, Add, Picture,, TCULauncher.exe
 	}

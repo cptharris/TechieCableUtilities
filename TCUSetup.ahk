@@ -9,6 +9,14 @@ ErrorFunc() {
 	return true
 }
 
+; ***** PROGRESS FUNC *****
+progressFunc(message,min:=0,max:=20) {
+	Sleep, 100
+	Random, rand, %min%, %max%
+	GuiControl, Text, installMessage, %message%
+	GuiControl,, SetupProgress, +%rand%
+}
+
 ; ***** TRAY AND GUI *****
 
 Menu, Tray, NoStandard
@@ -45,12 +53,7 @@ if FileExist("data\SpecChars.txt") {
 	FileRead, SpecCharsContents, data\SpecChars.txt
 }
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Attempting to backup files...
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Attempting to backup files...")
 
 ; ***** CLOSE TCU *****
 
@@ -70,55 +73,30 @@ commands=
 )
 Run, %comspec% /c %commands%
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Removing old files...
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Removing old files...")
 
 ; ***** CREATE DIRECTORIES *****
 FileCreateDir, %dir%
 FileCreateDir, %dir%\data
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Creating directories...
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Creating directories...")
 
 ; ***** INSTALL FILES *****
 
 ; Add the ahk file
 UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Installing ahk files...
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Installing ahk files...")
 
 ; Add the primary .exe
 FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, True
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Installing launcher...
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Installing launcher...")
 
 ; Add the TouchpadToggle .exe
 FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, True
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, installMessage, Installing TouchpadToggle
-GuiControl,, SetupProgress, +%rand%
-; progressupdates_end
+progressFunc("Installing TouchpadToggle...")
 
 ; ***** CUSTOM FILES *****
 
@@ -135,12 +113,7 @@ if (SpecCharsEx=1) {
 	FileAppend, %SpecCharsContents%, data\SpecChars.txt
 }
 
-; progressupdates_start
-Sleep, 100
-GuiControl, Text, installMessage, Wrapping up install...
-GuiControl,, SetupProgress, +100
-Sleep, 1000
-; progressupdates_end
+progressFunc("Wrapping up install...")
 
 ; ***** POST-INSTALL GUI *****
 
