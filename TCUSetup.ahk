@@ -1,6 +1,7 @@
+; WRITTEN BY TECHIECABLE
+
 dir := appdata . "\TechieCableUtilities"
 setworkingdir %dir%
-pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/setupwizard.png"
 
 ; ***** ERROR PREP *****
 OnError("ErrorFunc")
@@ -19,6 +20,10 @@ if A_Args[1]="--update" {
 		isUpdate := 0
 	}
 }
+
+; ***** CREATE SETUPWIZARD PIC *****
+pic := A_Temp . "\setupwizard.png"
+URLDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/setupwizard.png, %pic%
 
 ; ***** PROGRESS FUNC *****
 progressFunc(message,min:=0,max:=20) {
@@ -88,7 +93,7 @@ Menu, Tray, Tip, TCUSetup in progress...
 
 ; ***** LICENSE GUI *****
 
-Gui, 1:New, +AlwaysOnTop -Border, TechieCableUtilities Setup
+Gui, 1:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Color, White
 Gui, Margin, 0, 0
 Gui, 1:Add, Picture, x0 y0 w200 h-1, %pic%
@@ -106,7 +111,7 @@ Send, {Tab}
 
 ; ***** OPTIONS GUI *****
 
-Gui, 2:New, +AlwaysOnTop -Border, TechieCableUtilities Setup
+Gui, 2:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 2:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
@@ -120,7 +125,7 @@ Gui, 2:Add, Button, y+10 Default gContinue_Options, Install
 
 ; ***** INSTALL GUI *****
 
-Gui, 3:New, +AlwaysOnTop -Border, TechieCableUtilities Setup
+Gui, 3:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 3:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
@@ -137,7 +142,7 @@ Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to install TechieCableUtilites
 
 ; ***** FINISH GUI *****
 
-Gui, 4:New, +AlwaysOnTop -Border, TechieCableUtilities Setup
+Gui, 4:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 4:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
@@ -150,9 +155,11 @@ if (isUpdate = 1) {
 }
 Gui, Font
 Gui, 4:Add, CheckBox, xp y200 vT_LaunchTCU Checked, Launch TCU (Recommended)
-Gui, 4:Add, CheckBox, vT_LaunchHelpFile, Launch the help file.
+Gui, 4:Add, CheckBox, vT_LaunchHelpFile, Launch the help file
 Gui, 4:Add, Button, y+10 Default w80 +Center gFinish_Install, Finish
 Gui, 4:Add, Text, y+30 +Center c6A00A7 gLaunchDirectory, Open the TechieCableUtilities Directory (Click here).
+
+Run, %comspec% /c "del /Q %pic%`nexit"
 
 ; _________________________________________
 ; |              SCRIPT ENDS              |
@@ -216,7 +223,7 @@ process_install:
 	; ***** INSTALL FILES *****
 	
 	; Add the ahk file
-	UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
+	; UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
 	progressFunc("Installing ahk files")
 	
 	; Add the primary .exe
@@ -299,6 +306,7 @@ Finish_Install:
 		del /Q %A_Desktop%\TCUSetup.exe
 	)
 	Run, %comspec% /c "%commands%"
+	Run, %comspec% /c "del /Q %pic%`nexit"
 	ExitApp
 return
 
