@@ -322,3 +322,57 @@ return
 EXIT:
 	ExitApp
 return
+
+
+; ***** WRAP-UP COMMANDS *****
+
+; ButtonFinish:
+; 	Gui, Submit
+; 	if (LaunchTCU = 1) {
+; 		; Launch the .exe
+; 		Run, %dir%\TCULauncher.exe
+; 		if (LaunchHelpFile = 1) {
+; 			Sleep, 5000
+; 			Run, %dir%\TCU.rtf
+; 		}
+; 	}
+; 	if (LaunchTCU = 0 && LaunchHelpFile = 1) {
+; 		Gosub, LaunchDirectory
+; 	}
+; 	if (DesktopShortcut = 1) {
+; 		FileCreateShortcut, %dir%\TCULauncher.exe, %A_Desktop%\TechieCableUtilities.lnk, %dir%, , TechieCable's Useful Utilities in One! (Launches TCU), %dir%\TCULauncher.exe, , ,
+; 	}
+; 	if (StartFolder = 1) {
+; 		FileCreateShortcut, %dir%\TCULauncher.exe, %A_Startup%\TechieCableUtilities.lnk, %dir%, , TechieCable's Useful Utilities in One! (Launches TCU), %dir%\TCULauncher.exe, , ,
+; 	}
+; 	Gosub, DeleteDesktop
+; 	ExitApp
+; return
+
+; install:
+; 	Gui, New, +AlwaysOnTop -Border, TechieCableUtilities Setup Complete
+; 	Gui, Add, Text, x0 +Center, TechieCableUtilities Setup is complete! Thanks for installing!
+; 
+; 	Gui, Add, CheckBox, vLaunchTCU Checked, Launch TCU (Recommended)
+; 	Gui, Add, CheckBox, vDesktopShortcut, Add a desktop shortcut
+; 	Gui, Add, CheckBox, vStartFolder Checked, Add TCU to startup? (Recommended)
+; 	Gui, Add, Button, Default w80 x140 +Center gButtonFinish, Finish
+; 
+; 	Gui, Add, CheckBox, x0 vLaunchHelpFile, Launch the help file.
+; 	Gui, Add, Text, x0 +Center c6A00A7 gLaunchDirectory, Find the help file in the `%appdata`% directory (Click here).
+; 
+; 	Gui, Show, AutoSize Center, TechieCableUtilities Setup Complete
+; return
+; 
+; update:
+; 	Gui, New, +AlwaysOnTop -Border, TechieCableUtilities Update
+; 	Gui, Add, Text, x0 +Center, TechieCableUtilities Update is complete! Thanks for staying up to date!
+; 	Gui, Add, Link,,<a href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/">View update information</a>
+; 	LaunchTCU=1
+; 	Gui, Add, CheckBox, vDesktopShortcut, Add a new desktop shortcut
+; 	Gui, Add, CheckBox, vStartFolder Checked, Add TCU to startup again?
+; 	Gui, Add, Button, Default w80 x140 +Center gButtonFinish, Finish
+; 	Gui, Add, Text, x0 +Center, Removing TCUSetup from your desktop...`nClick finish to complete.
+; 	Gui, Add, CheckBox, x0 vLaunchHelpFile, Launch the help file.
+; 	Gui, Show, AutoSize Center, TechieCableUtilities Update Complete
+; return
