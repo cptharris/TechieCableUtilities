@@ -13,8 +13,6 @@ if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
 
-IniWrite, %version%, TCU.ini, about, version
-
 ; Create variables
 AOTCONFIG := 0
 TouchPadCONFIG := 0
@@ -58,6 +56,7 @@ IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, 0 ; Is TouchPad 
 ; TopMenu
 Menu, TopMenu, Add, Version v%version%, blank
 Menu, TopMenu, Add, Website, Top_Web
+Menu, TopMenu, Add, Backup, Top_Backup
 Menu, TopMenu, Add, Remove TCU, Top_Remove
 
 ; OptionsMenu
@@ -212,21 +211,21 @@ hotkeyGUI:
 	Hotkey, %AOT_key%, Off
 	Hotkey, %AOTMenu_key%, Off
 	Hotkey, %TouchPad_key%, Off
-	Gui, New, +AlwaysOnTop, TCU Hotkey Customizer
-	Gui, Add, Text, x2 y10 w100 h20, AlwaysOnTop
-	Gui, Add, Hotkey, x2 y30 w150 h30 vAOT_key, %AOT_key%
-	Gui, Add, Text, x2 y60 w100 h20, AOT Menu
-	Gui, Add, Hotkey, x2 y80 w150 h30 vAOTMenu_key, %AOTMenu_key%
-	Gui, Add, Text, x2 y110 w100 h20, TouchPad
-	Gui, Add, Hotkey, x2 y130 w150 h30 vTouchPad_key, %TouchPad_key%
-	Gui, Add, Button, x2 y165 w50 h20 Default gsubmitHotkey, Submit
-	Gui, Add, Button, x55 y165 w50 h20 gcancelHotkey, Cancel
-	Gui, Show, AutoSize Center
+	Gui, hotkeyGUI:New, +AlwaysOnTop, TCU Hotkey Customizer
+	Gui, hotkeyGUI:Add, Text, x2 y10 w100 h20, AlwaysOnTop
+	Gui, hotkeyGUI:Add, Hotkey, x2 y30 w150 h30 vAOT_key, %AOT_key%
+	Gui, hotkeyGUI:Add, Text, x2 y60 w100 h20, AOT Menu
+	Gui, hotkeyGUI:Add, Hotkey, x2 y80 w150 h30 vAOTMenu_key, %AOTMenu_key%
+	Gui, hotkeyGUI:Add, Text, x2 y110 w100 h20, TouchPad
+	Gui, hotkeyGUI:Add, Hotkey, x2 y130 w150 h30 vTouchPad_key, %TouchPad_key%
+	Gui, hotkeyGUI:Add, Button, x2 y165 w50 h20 Default gsubmitHotkey, Submit
+	Gui, hotkeyGUI:Add, Button, x55 y165 w50 h20 gcancelHotkey, Cancel
+	Gui, hotkeyGUI:Show, AutoSize Center
 return
 
 submitHotkey:
-	Gui, Submit
-	Gui, Destroy
+	Gui, hotkeyGUI:Submit
+	Gui, hotkeyGUI:Destroy
 	if (AOT_key = "") {
 		AOT_key=^!+Space
 	}
@@ -245,7 +244,7 @@ submitHotkey:
 	; Hotkey, %TouchPad_key%, TouchPadAction, On
 return
 cancelHotkey:
-	Gui, Destroy
+	Gui, hotkeyGUI:Destroy
 return
 
 checkFile:
@@ -335,6 +334,11 @@ Top_Web:
 	Run https://techiecable.github.io
 return
 Top_Remove:
+	MsgBox, 262211, Remove TechieCableUtilities, You are about to remove TechieCableUtilities from your computer.`nPress "Yes" to create a backup of your settings and delete TechieCableUtilities. Press "No" to delete TechieCableUtilities without a backup. Press "Cancel" to cancel the deletion
+	IfMsgBox Yes
+		gosub, Top_Backup
+	IfMsgBox Cancel
+		return
 	commands=
 	(join&
 @echo off
@@ -344,4 +348,19 @@ rmdir /s /q "TechieCableUtilities"
 	)
 	Run, %comspec% /c %commands%
 	ExitApp
+return
+Top_Backup:
+	backupFolder := A_Desktop . "\TCUBackup"
+	FileCreateDir, %backupFolder%
+	FileCreateDir, %backupFolder%\data
+	FileCopy, TCU.ini, %backupFolder%\TCU.ini, 1
+	if FileExist("data\addon.txt")
+		FileCopy, data\addon.txt, %backupFolder%\data\addon.txt, 1
+	if FileExist("data\gosub.txt")
+		FileCopy, data\gosub.txt, %backupFolder%\data\gosub.txt, 1
+	if FileExist("data\SpecChars.txt")
+		FileCopy, data\SpecChars.txt, %backupFolder%\data\SpecChars.txt, 1
+	MsgBox, 262212, TCUBackup Created, TCUBackup was created.`nView the backup folder?
+	IfMsgBox Yes
+		Run, %backupFolder%
 return
