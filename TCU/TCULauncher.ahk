@@ -11,6 +11,14 @@ ErrorFunc() {
 	return false
 }
 
+; ***** PROGRESS FUNC *****
+progressFunc(message,min:=0,max:=20) {
+	Sleep, 100
+	Random, rand, %min%, %max%
+	GuiControl, Text, launchMessage, %message%
+	GuiControl,, LaunchProgress, +%rand%
+}
+
 SetTimer, Terminate, 60000
 
 ; ***** INI READ *****
@@ -47,12 +55,13 @@ if (disable_loading = 1)
 	Gui, Show, AutoSize Center, TCULauncher
 }
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, launchMessage, Beginning launch sequence...
-GuiControl,, LaunchProgress, +%rand%
-; progressupdates_end
+progressFunc("Beginning launch sequence")
+
+progressFunc("Running v"version)
+
+Gosub, update
+
+progressFunc("Latest version v"versionNum)
 
 ; ***** DOWNLOADS *****
 
@@ -62,35 +71,16 @@ if !FileExist("ahk.zip")
 	UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, data\ahk.zip
 }
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, launchMessage, Checking for ahk files...
-GuiControl,, LaunchProgress, +%rand%
-; progressupdates_end
+progressFunc("Checking for ahk files")
 
 ; Download TechieCableUtilities.ahk
-UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, TechieCableUtilities.ahk
-
-Gosub, update
-
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, launchMessage, Checking latest version...
-GuiControl,, LaunchProgress, +%rand%
-; progressupdates_end
+FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk
 
 ; Install the settings_cog.ico and TCU.rtf
 FileInstall, data\settings_cog.ico, data\settings_cog.ico, False
 FileInstall, TCU.rtf, TCU.rtf, True
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, launchMessage, Installing necessary files...
-GuiControl,, LaunchProgress, +%rand%
-; progressupdates_end
+progressFunc("Installing necessary files")
 
 ; Create TCU.ini if it does not exist
 if !FileExist("TCU.ini")
@@ -99,44 +89,40 @@ if !FileExist("TCU.ini")
 	IniWrite, 0, TCU.ini, config, TouchPad
 	IniWrite, 0, TCU.ini, config, SpecChars
 }
+IniWrite, %version%, TCU.ini, about, version
 
-; progressupdates_start
-Sleep, 100
-Random, rand, 0, 20
-GuiControl, Text, launchMessage, Updating user settings...
-GuiControl,, LaunchProgress, +%rand%
-; progressupdates_end
+progressFunc("Updating user settings")
 
 ; Run TechieCableUtilities
 Run %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
 
-; progressupdates_start
-Sleep, 1000
-GuiControl, Text, launchMessage, Completed launcher sequence...
-GuiControl,, LaunchProgress, +100
-; progressupdates_end
+Sleep, 900
+progressFunc("Completed launcher sequence",100,100)
 
 ExitApp
 
 Terminate:
-ExitApp
-
 GuiClose:
-ExitApp
 GuiEscape:
 ExitApp
 
 update:
-	FileReadLine, upVersion, TechieCableUtilities.ahk, 1
-	upVersion := StrReplace(upVersion, "version = ","")
-	if (upVersion != version)
+	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, version.txt ; Get the file
+	FileRead, versionText, version.txt ; Read the file
+	RegExMatch(versionText, """tag_name"":""v(.*?)""", versionNum) ; Parse the file for version
+	RegExMatch(versionText, """body"":""(.*?)""", versionMessage) ; Parse the file for message
+	versionNum := versionNum1
+	versionMessage := StrReplace(versionMessage1, "\r\n", "`n") ; Fix linebreaks
+	Run %ComSpec% /c "del /q version.txt`nexit" ; Delete the file
+	
+	if (version != versionNum)
 	{
-		MsgBox, 262177, Update for TechieCableUtilities, An update is available for TechieCableUtilities! Press OK to continue.`nPress Cancel to abort the update.
+		MsgBox, 262177, Update for TechieCableUtilities, An update is available for TechieCableUtilities! Press OK to continue.`nPress Cancel to abort the update.`n`nChangelog for v%versionNum%`n%versionMessage%`n`nYou currently have %version%.
 		IfMsgBox, Cancel
 			return
 		IfMsgBox, OK
 			UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe, %A_Desktop%\TCUSetup.exe
-			Run, %A_Desktop%\TCUSetup.exe "1"
+			Run, %A_Desktop%\TCUSetup.exe "--update"
 			if %TechieCablePID% not contains CLOSED
 			{
 				Process, Close, %TechieCablePID%
