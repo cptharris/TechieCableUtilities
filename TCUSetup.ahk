@@ -284,7 +284,7 @@ Finish_Install:
 		Run, %dir%\TCULauncher.exe
 		if (T_LaunchHelpFile = 1) {
 			Sleep, 5000
-			Run, %dir%\TCU.rtf
+			Run, %dir%\TCU.html
 		}
 	}
 	; If not launching TCU, open the directory instead

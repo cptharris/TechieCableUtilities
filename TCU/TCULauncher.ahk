@@ -76,7 +76,7 @@ progressFunc("Checking for ahk files")
 ; Download TechieCableUtilities.ahk
 FileInstall, TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk
 
-; Install the settings_cog.ico and TCU.rtf
+; Install the settings_cog.ico and TCU.html
 FileInstall, data\settings_cog.ico, data\settings_cog.ico, False
 FileInstall, TCUManual.html, TCUManual.html, True
 
