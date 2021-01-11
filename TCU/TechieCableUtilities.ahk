@@ -1,7 +1,7 @@
 version = 1.0.9
 ; WRITTEN BY TECHIECABLE
 
-; settings_cog.ico, TCU.rtf, and TCU.ini are created by TCULauncher
+; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
 setworkingdir, %A_scriptdir%
 #SingleInstance Force
 #NoEnv

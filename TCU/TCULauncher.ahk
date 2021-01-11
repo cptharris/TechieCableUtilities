@@ -74,11 +74,11 @@ if !FileExist("ahk.zip")
 progressFunc("Checking for ahk files")
 
 ; Download TechieCableUtilities.ahk
-FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk
+FileInstall, TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk
 
 ; Install the settings_cog.ico and TCU.rtf
 FileInstall, data\settings_cog.ico, data\settings_cog.ico, False
-FileInstall, TCU.rtf, TCU.rtf, True
+FileInstall, TCUManual.html, TCUManual.html, True
 
 progressFunc("Installing necessary files")
 
