@@ -14,7 +14,7 @@ ErrorFunc() {
 if A_Args[1]="--update" {
 	isUpdate := 1
 } else {
-	if FileExist("%dir%\TCU.ini") {
+	if FileExist("TCU.ini") {
 		isUpdate := 1
 	} else {
 		isUpdate := 0
@@ -284,7 +284,7 @@ Finish_Install:
 		Run, %dir%\TCULauncher.exe
 		if (T_LaunchHelpFile = 1) {
 			Sleep, 5000
-			Run, %dir%\TCU.html
+			Run, %dir%\TCUManual.html
 		}
 	}
 	; If not launching TCU, open the directory instead
