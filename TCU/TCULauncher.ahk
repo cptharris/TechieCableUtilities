@@ -6,9 +6,10 @@ setworkingdir, %A_scriptdir%
 
 OnError("ErrorFunc")
 ErrorFunc() {
-	MsgBox, 0, TCULauncher ERROR, An error prevented TCULauncher from initializing correctly. Please try again.
-	ExitApp
-	return false
+	MsgBox, 262164, TCULauncher Error, An error prevented TCULauncher from initializing correctly. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+	IfMsgBox Yes
+		return false
+	return true
 }
 
 ; ***** PROGRESS FUNC *****
@@ -107,13 +108,13 @@ GuiEscape:
 ExitApp
 
 update:
-	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, version.txt ; Get the file
-	FileRead, versionText, version.txt ; Read the file
+	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, %A_Temp%\TCUversion.txt ; Get the file
+	FileRead, versionText, %A_Temp%\TCUversion.txt ; Read the file
 	RegExMatch(versionText, """tag_name"":""v(.*?)""", versionNum) ; Parse the file for version
 	RegExMatch(versionText, """body"":""(.*?)""", versionMessage) ; Parse the file for message
 	versionNum := versionNum1
 	versionMessage := StrReplace(versionMessage1, "\r\n", "`n") ; Fix linebreaks
-	Run %ComSpec% /c "del /q version.txt`nexit" ; Delete the file
+	Run %ComSpec% /c "del /q %A_Temp%\TCUversion.txt`nexit" ; Delete the file
 	
 	if (version != versionNum)
 	{

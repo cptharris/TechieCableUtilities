@@ -6,8 +6,9 @@ setworkingdir %dir%
 ; ***** ERROR PREP *****
 OnError("ErrorFunc")
 ErrorFunc() {
-	MsgBox, 0, TCUSetup ERROR, An error prevented TCUSetup from installing correctly. Please try again.
-	ExitApp
+	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+	IfMsgBox Yes
+		return false
 	return true
 }
 
