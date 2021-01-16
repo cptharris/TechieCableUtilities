@@ -1,4 +1,4 @@
-version = 1.0.9
+version = 0.1.0.10
 ; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher

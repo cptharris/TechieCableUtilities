@@ -1,7 +1,20 @@
+version = 0.1.0.10
 ; WRITTEN BY TECHIECABLE
+;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
 dir := appdata . "\TechieCableUtilities"
 setworkingdir %dir%
+
+;@Ahk2Exe-SetCompanyName TechieCable
+;@Ahk2Exe-SetCopyright (c) 2020-2021 TechieCable
+;@Ahk2Exe-SetDescription TechieCableUtilities Setup Process
+;@Ahk2Exe-SetFileVersion %U_Version%
+;@Ahk2Exe-SetInternalName TCUSetup
+;@Ahk2Exe-SetName TCUSetup
+;@Ahk2Exe-SetOrigFilename TCUSetup
+;@Ahk2Exe-SetProductName TCUSetup
+;@Ahk2Exe-SetProductVersion %U_Version%
+;@Ahk2Exe-SetVersion %U_Version%
 
 ; ***** ERROR PREP *****
 OnError("ErrorFunc")
@@ -118,7 +131,11 @@ Gui, 2:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
 Gui, 2:Add, Text, x+10 y10, TechieCableUtilites Setup
 Gui, Font, s15
-Gui, 2:Add, Text,, Install Options
+if (isUpdate = 1) {
+	Gui, 2:Add, Text,, Update Options
+} else {
+	Gui, 2:Add, Text,, Install Options
+}
 Gui, Font
 Gui, 2:Add, CheckBox, xp y180 vT_DesktopShortcut, Desktop Shortcut
 Gui, 2:Add, CheckBox, vT_StartUp Checked, Add to startup (Recommended)
@@ -139,7 +156,11 @@ if (isUpdate = 1) {
 }
 Gui, Font
 Gui, 3:Add, Progress, xp y200 w400 h20 c6A00A7 vSetupProgress, 0
-Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to install TechieCableUtilites...
+if (isUpdate = 1) {
+	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to update TechieCableUtilites...
+} else {
+	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to install TechieCableUtilites...
+}
 
 ; ***** FINISH GUI *****
 
@@ -228,11 +249,11 @@ process_install:
 	progressFunc("Installing ahk files")
 	
 	; Add the primary .exe
-	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, True
+	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, 1
 	progressFunc("Installing launcher")
 	
 	; Add the TouchpadToggle .exe
-	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, True
+	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
 	progressFunc("Installing TouchpadToggle")
 	
 	; ***** RESTORE BACKUP FILES *****

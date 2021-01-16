@@ -1,8 +1,20 @@
-version = 1.0.9
+version = 0.1.0.10
 ; WRITTEN BY TECHIECABLE
+;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
 setworkingdir, %A_scriptdir%
 #NoTrayIcon
+
+;@Ahk2Exe-SetCompanyName TechieCable
+;@Ahk2Exe-SetCopyright (c) 2020-2021 TechieCable
+;@Ahk2Exe-SetDescription TechieCableUtilities Launcher Process
+;@Ahk2Exe-SetFileVersion %U_Version%
+;@Ahk2Exe-SetInternalName TCULauncher
+;@Ahk2Exe-SetName TCULauncher
+;@Ahk2Exe-SetOrigFilename TCULauncher
+;@Ahk2Exe-SetProductName TCULauncher
+;@Ahk2Exe-SetProductVersion %U_Version%
+;@Ahk2Exe-SetVersion %U_Version%
 
 OnError("ErrorFunc")
 ErrorFunc() {
@@ -75,11 +87,11 @@ if !FileExist("ahk.zip")
 progressFunc("Checking for ahk files")
 
 ; Download TechieCableUtilities.ahk
-FileInstall, TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk
+FileInstall, TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk, 1
 
 ; Install the settings_cog.ico and TCUManual.html
-FileInstall, data\settings_cog.ico, data\settings_cog.ico, False
-FileInstall, TCUManual.html, TCUManual.html, True
+FileInstall, data\settings_cog.ico, data\settings_cog.ico, 0
+FileInstall, TCUManual.html, TCUManual.html, 1
 
 progressFunc("Installing necessary files")
 
