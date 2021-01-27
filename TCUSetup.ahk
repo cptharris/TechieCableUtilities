@@ -181,7 +181,7 @@ Gui, 4:Add, CheckBox, vT_LaunchHelpFile, Launch the help file
 Gui, 4:Add, Button, y+10 Default w80 +Center gFinish_Install, Finish
 Gui, 4:Add, Text, y+30 +Center c6A00A7 gLaunchDirectory, Open the TechieCableUtilities Directory (Click here).
 
-Run, %comspec% /c "del /Q %pic%`nexit"
+Run, %comspec% /c "del /Q %pic%`nexit",, Hide
 
 ; _________________________________________
 ; |              SCRIPT ENDS              |
@@ -233,7 +233,7 @@ process_install:
 		@echo off
 		rmdir /s /q %dir%
 	)
-	Run, %comspec% /c %commands%
+	Run, %comspec% /c %commands%,, Hide
 	progressFunc("Removing old files")
 	
 	; ***** CREATE DIRECTORIES *****
@@ -249,11 +249,11 @@ process_install:
 	progressFunc("Installing ahk files")
 	
 	; Add the primary .exe
-	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\TCULauncher.exe, %dir%\TCULauncher.exe, 1
+	FileInstall, TCU\TCULauncher.exe, %dir%\TCULauncher.exe, 1
 	progressFunc("Installing launcher")
 	
 	; Add the TouchpadToggle .exe
-	FileInstall, T:\Program_Files\AutoHotkey\Projects\TechieCableUtilities\TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
+	FileInstall, TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
 	progressFunc("Installing TouchpadToggle")
 	
 	; ***** RESTORE BACKUP FILES *****
@@ -327,8 +327,8 @@ Finish_Install:
 		timeout /t 2 /nobreak>nul
 		del /Q %A_Desktop%\TCUSetup.exe
 	)
-	Run, %comspec% /c "%commands%"
-	Run, %comspec% /c "del /Q %pic%`nexit"
+	Run, %comspec% /c "%commands%",, Hide
+	Run, %comspec% /c "del /Q %pic%`nexit",, Hide
 	ExitApp
 return
 

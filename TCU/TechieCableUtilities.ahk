@@ -13,6 +13,14 @@ if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
 
+TCUIniChange(ByRef VARCONFIG, MENUNAME, ININAME) {
+	VARCONFIG := !VARCONFIG
+	MENU, OptionsMenu, ToggleCheck, %MENUNAME%
+	IniWrite, %VARCONFIG%, TCU.ini, config, AOT
+	global lastFileContent
+	FileRead, lastFileContent, TCU.ini
+}
+
 ; Create variables
 AOTCONFIG := 0
 TouchPadCONFIG := 0
@@ -136,10 +144,7 @@ exit
 
 ; Set checkmark, write to .ini file for AOT
 AOTCONFIG:
-	AOTCONFIG := !AOTCONFIG
-	MENU, OptionsMenu, ToggleCheck, AlwaysOnTop
-	IniWrite, %AOTCONFIG%, TCU.ini, config, AOT
-	FileRead, lastFileContent, TCU.ini
+	TCUIniChange(AOTCONFIG, "AlwaysOnTop", "AOT")
 	
 	if (AOTCONFIG = 1) {
 		Hotkey, %AOT_key%, AOTAction, On
@@ -152,10 +157,7 @@ return
 
 ; Set checkmark, write to .ini file for TouchPad
 TouchPadCONFIG:
-	TouchPadCONFIG := !TouchPadCONFIG
-	MENU, OptionsMenu, ToggleCheck, TouchPad
-	IniWrite, %TouchPadCONFIG%, TCU.ini, config, TouchPad
-	FileRead, lastFileContent, TCU.ini
+	TCUIniChange(TouchPadCONFIG, "TouchPad", "TouchPad")
 	
 	if (TouchPadCONFIG = 1) {
 		Hotkey, %TouchPad_key%, TouchPadAction, On
@@ -165,10 +167,7 @@ TouchPadCONFIG:
 return
 
 SpecCharsCONFIG:
-	SpecCharsCONFIG := !SpecCharsCONFIG
-	MENU, OptionsMenu, ToggleCheck, SpecChars
-	IniWrite, %SpecCharsCONFIG%, TCU.ini, config, SpecChars
-	FileRead, lastFileContent, TCU.ini
+	TCUIniChange(SpecCharsCONFIG, "SpecChars", "SpecChars")
 return
 
 ; ******************** OTHER ACTIONS ********************
@@ -201,11 +200,12 @@ AOTMenuAction:
 return
 
 TouchPadAction:
-	; Run % "SystemSettingsAdminFlows.exe EnableTouchPad " . (touchpadEnabled := !touchpadEnabled),, UseErrorLevel
 	touchpadEnabled := !touchpadEnabled
 	Run, data\TouchpadToggle.exe %touchpadEnabled%
 	MENU, Tray, ToggleCheck, TouchPadToggle
 return
+
+; ******************** HOTKEY GUI ********************
 
 hotkeyGUI:
 	Hotkey, %AOT_key%, Off
@@ -239,9 +239,6 @@ submitHotkey:
 	IniWrite, %AOTMenu_key%, TCU.ini, hotkey, AOTMenu_key
 	IniWrite, %TouchPad_key%, TCU.ini, hotkey, TouchPad_key
 	Gosub, RELOAD
-	; Hotkey, %AOT_key%, AOTAction, On
-	; Hotkey, %AOTMenu_key%, AOTMenuAction, On
-	; Hotkey, %TouchPad_key%, TouchPadAction, On
 return
 cancelHotkey:
 	Gui, hotkeyGUI:Destroy
@@ -261,7 +258,8 @@ checkFile:
 	}
 return
 
-; ***** CUSTOM SCRIPT *****
+; ******************** CUSTOM SCRIPT ********************
+
 addon:
 	#Include *i data\gosub.txt
 return
@@ -330,6 +328,7 @@ SpecCharsAction:
 return
 
 ; ******************** TOPMENU FUNCTIONS ********************
+
 Top_Web:
 	Run https://techiecable.github.io
 return
@@ -346,7 +345,7 @@ cd ..
 timeout /t 2 /nobreak>nul
 rmdir /s /q "TechieCableUtilities"
 	)
-	Run, %comspec% /c %commands%
+	Run, %comspec% /c %commands%,, Hide
 	ExitApp
 return
 Top_Backup:

@@ -126,7 +126,7 @@ update:
 	RegExMatch(versionText, """body"":""(.*?)""", versionMessage) ; Parse the file for message
 	versionNum := versionNum1
 	versionMessage := StrReplace(versionMessage1, "\r\n", "`n") ; Fix linebreaks
-	Run %ComSpec% /c "del /q %A_Temp%\TCUversion.txt`nexit" ; Delete the file
+	Run %ComSpec% /c "del /q %A_Temp%\TCUversion.txt`nexit",, Hide ; Delete the file
 	
 	if (version != versionNum)
 	{
