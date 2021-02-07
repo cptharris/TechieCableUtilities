@@ -3,6 +3,7 @@ version = 0.1.0.10
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
 setworkingdir, %A_scriptdir%
+#SingleInstance Force
 #NoTrayIcon
 
 ;@Ahk2Exe-SetCompanyName TechieCable
@@ -41,6 +42,8 @@ IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
 
 ; ***** STARTUP *****
 
+IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, LauncherPID
+
 if %TechieCablePID% not contains CLOSED
 {
 	Process, Close, %TechieCablePID%
@@ -50,7 +53,7 @@ if %TechieCablePID% not contains CLOSED
 if (disable_loading = 1)
 {
 	Gui, Color, White
-	Gui, New, +AlwaysOnTop ToolWindow -Border -Caption, TCULauncher
+	Gui, New, +AlwaysOnTop +ToolWindow -Border -Caption, TCULauncher
 	Gui, Margin, 0, 0
 	try {
 		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/data/TCUico.gif"
@@ -61,7 +64,7 @@ if (disable_loading = 1)
 	Gui, Show, AutoSize x-10 y-10, TCULauncher
 	WinSet, TransColor, FFFFFF, TCULauncher
 } else {
-	GUI, New, +AlwaysOnTop -Border, TCULauncher
+	Gui, New, +AlwaysOnTop +ToolWindow -Border, TCULauncher
 	Gui, Margin, 0, 0
 	Gui, Add, Progress, w230 h50 c6A00A7 vLaunchProgress, 0
 	Gui, Add, Text, vlaunchMessage, Preparing to launch TechieCableUtilities...
@@ -79,10 +82,11 @@ progressFunc("Latest version v"versionNum)
 ; ***** DOWNLOADS *****
 
 ; Download AHK
-if !FileExist("ahk.zip")
-{
-	UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, data\ahk.zip
-}
+FileInstall, data\AutoHotkey.exe, %A_scriptdir%\data\AutoHotkey.exe, 1
+; if !FileExist("ahk.zip")
+; {
+	; UrlDownloadToFile, https://www.autohotkey.com/download/ahk.zip, data\ahk.zip
+; }
 
 progressFunc("Checking for ahk files")
 
@@ -106,18 +110,26 @@ IniWrite, %version%, TCU.ini, about, version
 
 progressFunc("Updating user settings")
 
-; Run TechieCableUtilities
-Run %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
-
 Sleep, 900
 progressFunc("Completed launcher sequence",100,100)
 
+Gui, Submit
+Gui, Destroy
+
+; Run TechieCableUtilities
+; RunWait %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
+RunWait %A_scriptdir%\data\Autohotkey.exe %A_scriptdir%\TechieCableUtilities.ahk
+
+IniWrite, CLOSED, TCU.ini, about, PID
+IniWrite, CLOSED, TCU.ini, about, LauncherPID
 ExitApp
 
 Terminate:
 GuiClose:
 GuiEscape:
-ExitApp
+Gui, Submit
+Gui, Destroy
+return
 
 update:
 	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, %A_Temp%\TCUversion.txt ; Get the file
@@ -128,6 +140,11 @@ update:
 	versionMessage := StrReplace(versionMessage1, "\r\n", "`n") ; Fix linebreaks
 	Run %ComSpec% /c "del /q %A_Temp%\TCUversion.txt`nexit",, Hide ; Delete the file
 	
+	Gui +OwnDialogs
+	if (versionNum = "" || versionMessage = "") {
+		MsgBox, 262176, Update Check Error, TechieCableUtilities was unable to find the latest version. You may not be connected to the internet.`nThis dialog will close and continue the launch process., 10
+		return
+	}
 	if (version != versionNum)
 	{
 		MsgBox, 262177, Update for TechieCableUtilities, An update is available for TechieCableUtilities! Press OK to continue.`nPress Cancel to abort the update.`n`nChangelog for v%versionNum%`n%versionMessage%`n`nYou currently have %version%.

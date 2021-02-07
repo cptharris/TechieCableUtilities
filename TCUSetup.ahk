@@ -4,6 +4,7 @@ version = 0.1.0.10
 
 dir := appdata . "\TechieCableUtilities"
 setworkingdir %dir%
+#SingleInstance Force
 
 ;@Ahk2Exe-SetCompanyName TechieCable
 ;@Ahk2Exe-SetCopyright (c) 2020-2021 TechieCable
@@ -223,6 +224,12 @@ process_install:
 	{
 		Process, Close, %TechieCablePID%
 		Process, WaitClose, %TechieCablePID%
+	}
+	IniRead, LauncherPID, %dir%\TCU.ini, about, LauncherPID, CLOSED
+	if %LauncherPID% not contains CLOSED
+	{
+		Process, Close, %LauncherPID%
+		Process, WaitClose, %LauncherPID%
 	}
 	progressFunc("Terminating running processes")
 	
