@@ -117,10 +117,8 @@ Gui, Submit
 Gui, Destroy
 
 ; Run TechieCableUtilities
-; RunWait %A_scriptdir%\data\ahk.zip\AutoHotkeyA32.exe %A_scriptdir%\TechieCableUtilities.ahk
-RunWait %A_scriptdir%\data\Autohotkey.exe %A_scriptdir%\TechieCableUtilities.ahk
+Run %A_scriptdir%\data\Autohotkey.exe %A_scriptdir%\TechieCableUtilities.ahk
 
-IniWrite, CLOSED, TCU.ini, about, PID
 IniWrite, CLOSED, TCU.ini, about, LauncherPID
 ExitApp
 

@@ -9,6 +9,11 @@ setworkingdir, %A_scriptdir%
 
 ; ******************** STARTUP ********************
 
+OnExit("ExitFunc")
+ExitFunc() {
+	IniWrite, CLOSED, TCU.ini, about, PID
+}
+
 if (!A_IsCompiled) {
 	Menu, Tray, Icon, TCULauncher.exe, 1, 1
 }
@@ -83,6 +88,7 @@ Menu, Tray, Add
 Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
 Menu, Tray, Add, TouchPadToggle, TouchPadAction
 Menu, Tray, Add
+Menu, Tray, Add, Open TCUManual, OpenTCUManual
 Menu, Tray, Add, Open Script Directory, OpenDirectory
 Menu, Tray, Add
 Menu, Tray, Add, Reload, RELOAD ; Add a reload button
@@ -258,6 +264,18 @@ checkFile:
 	}
 return
 
+OpenTCUManual:
+	Gui, ManualGUI:New, +AlwaysOnTop, TCUManual
+	Gui, ManualGUI:Add, ActiveX, w400 h200 vShellTCUManual, Shell.Explorer
+	ShellTCUManual.Navigate(A_ScriptDir "\TCUManual.html")
+	Gui, ManualGUI:Add, Button, gTCUManualGUIClose, Close
+	Gui, ManualGUI:Show
+return
+
+TCUManualGUIClose:
+	Gui, ManualGUI:Destroy
+return
+
 ; ******************** CUSTOM SCRIPT ********************
 
 addon:
@@ -288,7 +306,7 @@ SpecCharsAction:
 	#EscapeChar |
 	#Hotstring ?C
 	#IF (SpecCharsCONFIG = 1)
-		;Spanish Characters
+		; Spanish Characters
 		:*:`a::{U+00e1}
 		:*:`e::{U+00e9}
 		:*:`i::{U+00ed}
@@ -304,7 +322,7 @@ SpecCharsAction:
 		:*:`N::{U+00d1}
 		:*:`?::{U+00bf}
 		:*:`!::{U+00a1}
-		;Superscripts
+		; Superscripts
 		:*:^1::{U+00B9}
 		:*:^2::{U+00B2}
 		:*:^3::{U+00B3}
@@ -315,7 +333,7 @@ SpecCharsAction:
 		:*:^8::{U+2078}
 		:*:^9::{U+2079}
 		:*:^0::{U+2070}
-		;Math operators
+		; Math operators
 		:*:`*::{U+00D7}
 		:*:`/::{U+00F7}
 		:*:`+-::{U+00B1}
