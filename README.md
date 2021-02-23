@@ -1,5 +1,8 @@
 # TechieCableUtilities
-TechieCable's Favorite Utilities
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/techiecable/techiecableutilities/latest?label=commits%20since%20latest%20release)
+![GitHub Release Date](https://img.shields.io/github/release-date/techiecable/techiecableutilities?label=lastest%20release%20date)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/techiecable/techiecableutilities?label=latest%20release)
+![GitHub last commit](https://img.shields.io/github/last-commit/techiecable/techiecableutilities)
 
 TechieCableUtilities is a compilation of TechieCable's favorite tricks written with [AutoHotkey](https://www.autohotkey.com/). The entire program is written in [AutoHotkey](https://www.autohotkey.com/), including the installer and launcher.
 
