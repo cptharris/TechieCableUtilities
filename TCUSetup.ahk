@@ -1,4 +1,4 @@
-version = 0.1.0.10
+version = 1.0.11
 ; WRITTEN BY TECHIECABLE
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 

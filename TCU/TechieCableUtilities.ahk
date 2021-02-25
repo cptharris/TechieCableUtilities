@@ -1,4 +1,4 @@
-version = 0.1.0.10
+version = 1.0.11
 ; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
@@ -303,9 +303,12 @@ return
 ; ******************** SPECIAL CHARACTERS ********************
 
 SpecCharsAction:
+	Old_TitleMatchMode := A_TitleMatchMode
 	#EscapeChar |
 	#Hotstring ?C
+	SetTitleMatchMode RegEx
 	#IF (SpecCharsCONFIG = 1)
+	#IF !WinActive("Mathway.*Problem Solver")
 		; Spanish Characters
 		:*:`a::{U+00e1}
 		:*:`e::{U+00e9}
@@ -341,6 +344,7 @@ SpecCharsAction:
 		:*:`<=::{U+2264}
 		:*:`>=::{U+2265}
 		#Include *i data\SpecChars.txt
+		SetTitleMatchMode %Old_TitleMatchMode%
 		#EscapeChar `
 	#If
 return
