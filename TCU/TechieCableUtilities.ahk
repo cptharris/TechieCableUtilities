@@ -95,7 +95,7 @@ Menu, Tray, Add, Reload, RELOAD ; Add a reload button
 Menu, Tray, Add, Exit, EXIT ; Add an exit button
 
 ; Other Tray Menu Things
-Menu, Tray, Default, TechieCableUtilities ; Set the default menu
+Menu, Tray, Default, Open TCUManual ; Set the default menu
 Menu, Tray, Icon, Options (Hotkeys), data\settings_cog.ico
 Menu, Tray, Tip, TechieCableUtilities (v%version%) ; Tooltip
 
@@ -186,22 +186,34 @@ AOTMenuAction:
 	try {
 		Menu, AOTMenu, DeleteAll
 	}
+	
 	MenuFunction := func("AOTFunction")
+	
+	; Menu Top Section
 	Menu, AOTMenu, Add, AlwaysOnTop Selector, Blank
+	Menu, AOTMenu, Default, AlwaysOnTop Selector
 	Menu, AOTMenu, Add
+	Menu, AOTMenu, Add, Click a window name to toggle pin, Blank
+	Menu, AOTMenu, Add
+	
+	; List windows
 	WinGet windows, List
 	Loop %windows% {
 		id := windows%A_Index%
 		WinGetTitle wt, ahk_id %id%
 		if (wt != "") {
 			Menu, AOTMenu, Add, %wt%, % MenuFunction
+			WinGet, ES, ExStyle, %wt%
+			if (ES & 0x00000008) {
+				Menu, AOTMenu, Check, %wt%
+			}
 		}
 	}
-	Menu, AOTMenu, Add
-	Menu, AOTMenu, Add, Choose ^^ to pin, Blank
 	Menu, AOTMenu, Show
+	
 	AOTFunction(ItemName) {
 		WinSet, AlwaysOnTop, Toggle, % ItemName
+		Menu, AOTMenu, ToggleCheck, % ItemName
 	}
 return
 
@@ -214,9 +226,11 @@ return
 ; ******************** HOTKEY GUI ********************
 
 hotkeyGUI:
-	Hotkey, %AOT_key%, Off
-	Hotkey, %AOTMenu_key%, Off
-	Hotkey, %TouchPad_key%, Off
+	try {
+		Hotkey, %AOT_key%, Off
+		Hotkey, %AOTMenu_key%, Off
+		Hotkey, %TouchPad_key%, Off
+	}
 	Gui, hotkeyGUI:New, +AlwaysOnTop, TCU Hotkey Customizer
 	Gui, hotkeyGUI:Add, Text, x2 y10 w100 h20, AlwaysOnTop
 	Gui, hotkeyGUI:Add, Hotkey, x2 y30 w150 h30 vAOT_key, %AOT_key%
