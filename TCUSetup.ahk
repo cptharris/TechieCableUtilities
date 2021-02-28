@@ -19,8 +19,17 @@ setworkingdir %dir%
 
 ; ***** ERROR PREP *****
 OnError("ErrorFunc")
-ErrorFunc() {
-	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+ErrorFunc(Exception) {
+	global
+	Gui, Error:New, +Disabled, TechieCableUtilities Setup Error Reporter
+	Gui, Error:Add, ActiveX, w0 h0 verror_analytics, Shell.Explorer
+	error_analytics.silent := true
+	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Setup Error Reporter
+	error_analytics.Navigate(analytics(exception.message))
+	
+	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. An error report has been sent. TCUSetup will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+	Gui, Error:Submit
+	Gui, Error:Destroy
 	IfMsgBox Yes
 		return false
 	return true

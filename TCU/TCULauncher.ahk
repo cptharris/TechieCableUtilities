@@ -17,9 +17,19 @@ setworkingdir, %A_scriptdir%
 ;@Ahk2Exe-SetProductVersion %U_Version%
 ;@Ahk2Exe-SetVersion %U_Version%
 
+#Include *i analytics.ahk
 OnError("ErrorFunc")
-ErrorFunc() {
-	MsgBox, 262164, TCULauncher Error, An error prevented TCULauncher from initializing correctly. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+ErrorFunc(exception) {
+	global
+	Gui, Error:New, +Disabled, TechieCableUtilities Launcher Error Reporter
+	Gui, Error:Add, ActiveX, w0 h0 verror_analytics, Shell.Explorer
+	error_analytics.silent := true
+	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Launcher Error Reporter
+	error_analytics.Navigate(analytics(exception.message))
+	
+	MsgBox, 262164, TCULauncher Error, An error prevented TCULauncher from initializing correctly. An error report has been sent. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+	Gui, Error:Submit
+	Gui, Error:Destroy
 	IfMsgBox Yes
 		return false
 	return true
