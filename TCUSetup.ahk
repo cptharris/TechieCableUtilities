@@ -18,14 +18,23 @@ setworkingdir %dir%
 ;@Ahk2Exe-SetVersion %U_Version%
 
 ; ***** ERROR PREP *****
+
+#Include *i TCU\analytics.ahk
+
 OnError("ErrorFunc")
-ErrorFunc(Exception) {
+ErrorFunc(e) {
 	global
 	Gui, Error:New, +Disabled, TechieCableUtilities Setup Error Reporter
 	Gui, Error:Add, ActiveX, w0 h0 verror_analytics, Shell.Explorer
 	error_analytics.silent := true
 	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Setup Error Reporter
-	error_analytics.Navigate(analytics(exception.message))
+	
+	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "" e.extra "-----"
+	
+	error_analytics.Navigate(analytics(exceptionText))
+	Sleep 500
+	Gui, Error:Submit
+	Gui, Error:Destroy
 	
 	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. An error report has been sent. TCUSetup will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
 	Gui, Error:Submit
@@ -56,8 +65,6 @@ progressFunc(message,min:=0,max:=20) {
 	GuiControl, 3:Text, installMessage, %message%
 	GuiControl, 3:, SetupProgress, +%rand%
 }
-
-#Include *i TCU\analytics.ahk
 
 ; ***** TRAY AND GUI *****
 
@@ -166,6 +173,10 @@ Continue_EULA:
 return
 
 Continue_InfoSent:
+	for n, param in A_Args
+	{
+		listArgs .= "(" n ") > " param "`n"
+	}
 	MsgBox, 262144, Data to Transmit, % "The following data will be transmitted to monitor traffic and fix bugs:`n"
 	. "Time and date: " . A_NowUTC . "`n"
 	. "Script directory: " . StrReplace(A_ScriptDir, A_UserName, "<username>") . "`n"
@@ -179,7 +190,7 @@ Continue_InfoSent:
 	. "ProgVersion: " . version . "`n"
 	. "OSVersion: " . A_OSVersion . "`n"
 	. "64-bit OS: " . A_Is64bitOS . "`n"
-	. "Args: " . StrReplace(A_Args, A_UserName, "<username>")
+	. "Args: " . StrReplace(listArgs, A_UserName, "<username>")
 return
 
 Continue_Options:
