@@ -18,9 +18,27 @@ setworkingdir %dir%
 ;@Ahk2Exe-SetVersion %U_Version%
 
 ; ***** ERROR PREP *****
+
+#Include *i TCU\analytics.ahk
+
 OnError("ErrorFunc")
-ErrorFunc() {
-	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. TCULauncher will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+ErrorFunc(e) {
+	global
+	Gui, Error:New, +Disabled, TechieCableUtilities Setup Error Reporter
+	Gui, Error:Add, ActiveX, w0 h0 verror_analytics, Shell.Explorer
+	error_analytics.silent := true
+	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Setup Error Reporter
+	
+	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "" e.extra "-----"
+	
+	error_analytics.Navigate(analytics(exceptionText))
+	Sleep 500
+	Gui, Error:Submit
+	Gui, Error:Destroy
+	
+	MsgBox, 262164, TCUSetup Error, An error prevented TCUSetup from installing correctly. An error report has been sent. TCUSetup will attempt to continue`, but you may need to run it again.`n`nPress "Yes" to view the error. Press "No" to continue.
+	Gui, Error:Submit
+	Gui, Error:Destroy
 	IfMsgBox Yes
 		return false
 	return true
@@ -48,57 +66,6 @@ progressFunc(message,min:=0,max:=20) {
 	GuiControl, 3:, SetupProgress, +%rand%
 }
 
-LICENSETEXT =
-(
-End-User License Agreement (EULA) of TechieCableUtilities
-
-This End-User License Agreement ("EULA") is a legal agreement between you and TechieCable.
-
-This EULA agreement governs your acquisition and use of our TechieCableUtilities software ("Software") directly from TechieCable or indirectly through a TechieCable authorized reseller or distributor (a "Reseller").
-
-Please read this EULA agreement carefully before completing the installation process and using the TechieCableUtilities software. It provides a license to use the TechieCableUtilities software and contains warranty information and liability disclaimers.
-
-If you register for a free trial of the TechieCableUtilities software, this EULA agreement will also govern that trial. By clicking "I accept the EULA" or installing and/or using the TechieCableUtilities software, you are confirming your acceptance of the Software and agreeing to become bound by the terms of this EULA agreement.
-
-If you are entering into this EULA agreement on behalf of a company or other legal entity, you represent that you have the authority to bind such entity and its affiliates to these terms and conditions. If you do not have such authority or if you do not agree with the terms and conditions of this EULA agreement, do not install or use the Software, and you must not accept this EULA agreement.
-
-TechieCable may at any time change the terms of this EULA without any notice given to you. By using the Software, you are agreeing to become bound by the terms of any future terms of the EULA.
-
-This EULA agreement shall apply only to the Software supplied by TechieCable herewith regardless of whether other software is referred to or described herein. The terms also apply to any TechieCable updates, supplements, Internet-based services, and support services for the Software, unless other terms accompany those items on delivery. If so, those terms apply.
-
-License Grant
-
-TechieCable hereby grants you a personal, non-transferable, non-exclusive license to use the TechieCableUtilities software on your devices per the terms of this EULA agreement.
-
-You are permitted to load the TechieCableUtilities software (for example a PC, laptop, mobile, or tablet) under your control. You are responsible for ensuring your device meets the minimum requirements of the TechieCableUtilities software.
-
-You are not permitted to:
-
- - Edit, alter, modify, adapt, translate or otherwise change the whole or any part of the Software nor permit the whole or any part of the Software to be combined with or become incorporated in any other software, nor decompile, disassemble or reverse engineer the Software or attempt to do any such things
- - Reproduce, copy, distribute, resell, or otherwise use the Software for any commercial purpose
- - Allow any third party to use the Software on behalf of or for the benefit of any third party
- - Use the Software in any way which breaches any applicable local, national or international law
- - Use the Software for any purpose that TechieCable considers is a breach of this EULA agreement
-
-Intellectual Property and Ownership
-
-TechieCable shall at all times retain ownership of the Software as originally downloaded by you and all subsequent downloads of the Software by you. The Software (and the copyright, and other intellectual property rights of whatever nature in the Software, including any modifications made thereto) are and shall remain the property of TechieCable.
-
-TechieCable retains the right to use feedback or suggestions from you in the Software without credit or compensation given to you in any form. Such additions shall become the property of TechieCable.
-
-TechieCable reserves the right to grant licenses to use the Software to third parties.
-
-Termination
-
-This EULA agreement is effective from the date you first use the Software and shall continue until terminated. You may terminate it at any time upon written notice to TechieCable.
-
-It will also terminate immediately if you fail to comply with any term of this EULA agreement. Upon such termination, the licenses granted by this EULA agreement will immediately terminate and you agree to stop all access and use of the Software. The provisions that by their nature continue and survive will survive any termination of this EULA agreement.
-
-Governing Law
-
-This EULA agreement, and any dispute arising out of or in connection with this EULA agreement, shall be governed by and construed under the laws of the United States.
-)
-
 ; ***** TRAY AND GUI *****
 
 Menu, Tray, NoStandard
@@ -115,14 +82,15 @@ Gui, 1:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
 Gui, 1:Add, Text, x+10 y10, TechieCableUtilites Setup
 Gui, Font, s15
-Gui, 1:Add, Text,, License
+Gui, 1:Add, Text,, License && Privacy Policy
 Gui, Font
-Gui, 1:Add, Edit, xp y150 h100 w500 ReadOnly, %LICENSETEXT%
-Gui, 1:Add, Radio, y+10 vEULAradio Checked, I do not accept the EULA
-Gui, 1:Add, Radio,, I accept the EULA
+Gui, 1:Add, Link, y+40, By installing, you are agreeing to the <a href="https://github.com/TechieCable/TechieCableUtilities/blob/main/LICENSE.md">License</a> and <a href="https://github.com/TechieCable/TechieCableUtilities/blob/main/PrivacyPolicy.md">Privacy Policy</a>.
+Gui, 1:Add, Radio, y+10 vEULAradio Checked, I do not accept these binding documents
+Gui, 1:Add, Radio,, I accept these binding documents
 Gui, 1:Add, Button, y+10 Default gContinue_EULA, Continue
+Gui, 1:Add, Button, y+20 gContinue_InfoSent, Data to Transmit
 Gui, 1:Show, w720 Center, TechieCableUtilities Setup
-Send, {Tab}
+Send, {Tab}{Tab}
 
 ; ***** OPTIONS GUI *****
 
@@ -181,6 +149,8 @@ Gui, 4:Add, CheckBox, xp y200 vT_LaunchTCU Checked, Launch TCU (Recommended)
 Gui, 4:Add, CheckBox, vT_LaunchHelpFile, Launch the help file
 Gui, 4:Add, Button, y+10 Default w80 +Center gFinish_Install, Finish
 Gui, 4:Add, Text, y+30 +Center c6A00A7 gLaunchDirectory, Open the TechieCableUtilities Directory (Click here).
+Gui, 4:Add, ActiveX, w0 h0 vinstall_analytics, Shell.Explorer
+install_analytics.silent := true
 
 Run, %comspec% /c "del /Q %pic%`nexit",, Hide
 
@@ -200,6 +170,27 @@ Continue_EULA:
 		Gui, 1:Destroy
 		Gui, 2:Show, w620 Center, TechieCableUtilities Setup
 	}
+return
+
+Continue_InfoSent:
+	for n, param in A_Args
+	{
+		listArgs .= "(" n ") > " param "`n"
+	}
+	MsgBox, 262144, Data to Transmit, % "The following data will be transmitted to monitor traffic and fix bugs:`n"
+	. "Time and date: " . A_NowUTC . "`n"
+	. "Script directory: " . StrReplace(A_ScriptDir, A_UserName, "<username>") . "`n"
+	. "Working directory: " . StrReplace(A_WorkingDir, A_UserName, "<username>") . "`n"
+	. "Script name: " . A_ScriptName . "`n"
+	. "Computer name: " . A_ComputerName . "`n"
+	. "isAdmin: " . A_IsAdmin . "`n"
+	. "ErrorLevel: " . ErrorLevel . "`n"
+	. "LastError: " . StrReplace(A_LastError, A_UserName, "<username>") . "`n"
+	. "AhkVersion: " . A_AhkVersion . "`n"
+	. "ProgVersion: " . version . "`n"
+	. "OSVersion: " . A_OSVersion . "`n"
+	. "64-bit OS: " . A_Is64bitOS . "`n"
+	. "Args: " . StrReplace(listArgs, A_UserName, "<username>")
 return
 
 Continue_Options:
@@ -252,7 +243,6 @@ process_install:
 	; ***** INSTALL FILES *****
 	
 	; Add the ahk file
-	; UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TechieCableUtilities.ahk, %dir%\TechieCableUtilities.ahk
 	progressFunc("Installing ahk files")
 	
 	; Add the primary .exe
@@ -280,6 +270,7 @@ process_install:
 	progressFunc("Attempting to restore backups")
 	
 	progressFunc("Wrapping up install")
+	install_analytics.Navigate(analytics("0"))
 return
 
 process_backup:

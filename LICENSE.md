@@ -2,17 +2,19 @@
 
 This End-User License Agreement ("EULA") is a legal agreement between you and TechieCable.
 
-This EULA agreement governs your acquisition and use of our TechieCableUtilities software ("Software") directly from TechieCable or indirectly through a TechieCable authorized reseller or distributor (a "Reseller").
+This EULA agreement governs your acquisition and use of the TechieCableUtilities software ("Software") directly from TechieCable or indirectly through a TechieCable authorized reseller or distributor (a "Reseller").
 
 Please read this EULA agreement carefully before completing the installation process and using the TechieCableUtilities software. It provides a license to use the TechieCableUtilities software and contains warranty information and liability disclaimers.
 
-If you register for a free trial of the TechieCableUtilities software, this EULA agreement will also govern that trial. By clicking "I accept the EULA" or installing and/or using the TechieCableUtilities software, you are confirming your acceptance of the Software and agreeing to become bound by the terms of this EULA agreement.
+If you register for a free trial of the TechieCableUtilities software, this EULA agreement will also govern that trial. By clicking "I accept these binding documents" and/or installing and/or using the TechieCableUtilities software, you are confirming your acceptance of the Software and agreeing to become bound by the terms of this EULA agreement. You are also confirming that you have read, understand, and agree with the terms of the Privacy Policy.
 
 If you are entering into this EULA agreement on behalf of a company or other legal entity, you represent that you have the authority to bind such entity and its affiliates to these terms and conditions. If you do not have such authority or if you do not agree with the terms and conditions of this EULA agreement, do not install or use the Software, and you must not accept this EULA agreement.
 
-TechieCable may at any time change the terms of this EULA without any notice given to you. By using the Software, you are agreeing to become bound by the terms of any future terms of the EULA.
+TechieCable may at any time change the terms of this EULA without any notice given to you. By using the Software, you are agreeing to become bound by the terms of any future version of the EULA.
 
 This EULA agreement shall apply only to the Software supplied by TechieCable herewith regardless of whether other software is referred to or described herein. The terms also apply to any TechieCable updates, supplements, Internet-based services, and support services for the Software, unless other terms accompany those items on delivery. If so, those terms apply.
+
+This EULA applies to the Software created by TechieCable. Any dependencies come with their own licenses, which you also agree to by agreeing to this EULA.
 
 ## License Grant
 
