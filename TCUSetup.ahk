@@ -48,6 +48,7 @@ progressFunc(message,min:=0,max:=20) {
 	GuiControl, 3:, SetupProgress, +%rand%
 }
 
+#Include *i TCU\analytics.ahk
 
 ; ***** TRAY AND GUI *****
 
@@ -71,6 +72,7 @@ Gui, 1:Add, Link, y+40, By installing, you are agreeing to the <a href="https://
 Gui, 1:Add, Radio, y+10 vEULAradio Checked, I do not accept these binding documents
 Gui, 1:Add, Radio,, I accept these binding documents
 Gui, 1:Add, Button, y+10 Default gContinue_EULA, Continue
+Gui, 1:Add, Button, y+20 gContinue_InfoSent, Data to Transmit
 Gui, 1:Show, w720 Center, TechieCableUtilities Setup
 Send, {Tab}{Tab}
 
@@ -131,6 +133,8 @@ Gui, 4:Add, CheckBox, xp y200 vT_LaunchTCU Checked, Launch TCU (Recommended)
 Gui, 4:Add, CheckBox, vT_LaunchHelpFile, Launch the help file
 Gui, 4:Add, Button, y+10 Default w80 +Center gFinish_Install, Finish
 Gui, 4:Add, Text, y+30 +Center c6A00A7 gLaunchDirectory, Open the TechieCableUtilities Directory (Click here).
+Gui, 4:Add, ActiveX, w0 h0 vinstall_analytics, Shell.Explorer
+install_analytics.silent := true
 
 Run, %comspec% /c "del /Q %pic%`nexit",, Hide
 
@@ -150,6 +154,23 @@ Continue_EULA:
 		Gui, 1:Destroy
 		Gui, 2:Show, w620 Center, TechieCableUtilities Setup
 	}
+return
+
+Continue_InfoSent:
+	MsgBox, 262144, Data to Transmit, % "The following data will be transmitted to monitor traffic and fix bugs:`n"
+	. "Time and date: " . A_NowUTC . "`n"
+	. "Script directory: " . StrReplace(A_ScriptDir, A_UserName, "<username>") . "`n"
+	. "Working directory: " . StrReplace(A_WorkingDir, A_UserName, "<username>") . "`n"
+	. "Script name: " . A_ScriptName . "`n"
+	. "Computer name: " . A_ComputerName . "`n"
+	. "isAdmin: " . A_IsAdmin . "`n"
+	. "ErrorLevel: " . ErrorLevel . "`n"
+	. "LastError: " . StrReplace(A_LastError, A_UserName, "<username>") . "`n"
+	. "AhkVersion: " . A_AhkVersion . "`n"
+	. "ProgVersion: " . version . "`n"
+	. "OSVersion: " . A_OSVersion . "`n"
+	. "64-bit OS: " . A_Is64bitOS . "`n"
+	. "Args: " . StrReplace(A_Args, A_UserName, "<username>")
 return
 
 Continue_Options:
@@ -229,6 +250,7 @@ process_install:
 	progressFunc("Attempting to restore backups")
 	
 	progressFunc("Wrapping up install")
+	install_analytics.Navigate(analytics("0"))
 return
 
 process_backup:
