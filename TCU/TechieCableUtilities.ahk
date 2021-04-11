@@ -1,4 +1,4 @@
-version = 1.0.11
+version = 1.0.12
 ; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
@@ -280,9 +280,9 @@ return
 
 OpenTCUManual:
 	Gui, ManualGUI:New, +AlwaysOnTop, TCUManual
-	Gui, ManualGUI:Add, ActiveX, w400 h200 vShellTCUManual, Shell.Explorer
+	Gui, ManualGUI:Add, ActiveX, w500 h400 vShellTCUManual, Shell.Explorer
 	ShellTCUManual.Navigate(A_ScriptDir "\TCUManual.html")
-	Gui, ManualGUI:Add, Button, gTCUManualGUIClose, Close
+	Gui, ManualGUI:Add, Button, Default gTCUManualGUIClose, Close
 	Gui, ManualGUI:Show
 return
 
