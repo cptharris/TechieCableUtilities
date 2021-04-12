@@ -21,27 +21,24 @@ if (!A_IsCompiled) {
 TCUIniChange(ByRef VARCONFIG, MENUNAME, ININAME) {
 	VARCONFIG := !VARCONFIG
 	MENU, OptionsMenu, ToggleCheck, %MENUNAME%
-	IniWrite, %VARCONFIG%, TCU.ini, config, AOT
+	IniWrite, %VARCONFIG%, TCU.ini, config, %ININAME%
 	global lastFileContent
 	FileRead, lastFileContent, TCU.ini
 }
 
 ; Create variables
-AOTCONFIG := 0
-TouchPadCONFIG := 0
-SpecCharsCONFIG := 0
+AOT_config := 0
+AOTMenu_config := 0
+TouchPad_config := 0
+SpecChars_config := 0
 touchpadEnabled := 0 ; Assume so on start
 
-AOT_key=^!+Space
-AOTMenu_key=^!+Up
-TouchPad_key=^F2
+AOT_key := "^!+Space"
+AOTMenu_key:= "^!+Up"
+TouchPad_key := "^F2"
 
 ; Write the PID to the .ini - used to operate on the process
 IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, PID
-
-; ******************** CUSTOM FILES ********************
-
-#Include *i data\addon.txt
 
 ; ******************** Check TCU.ini ********************
 
@@ -51,9 +48,10 @@ setTimer, checkFile, 10000
 ; ******************** LOAD CONFIG ********************
 
 ; Load the config on start
-IniRead, AOTCONFIG, TCU.ini, config, AOT, 1 ; Is AOT turned on?
-IniRead, TouchPadCONFIG, TCU.ini, config, TouchPad, 0 ; Is TouchPad turned on?
-IniRead, SpecCharsCONFIG, TCU.ini, config, SpecChars, 0 ; Is SpecChars turned on?
+IniRead, AOT_config, TCU.ini, config, AOT, 1 ; Is AOT turned on?
+IniRead, AOTMenu_config, TCU.ini, config, AOTMenu, 0 ; Is AOTMenu turned on?
+IniRead, TouchPad_config, TCU.ini, config, TouchPad, 0 ; Is TouchPad turned on?
+IniRead, SpecChars_config, TCU.ini, config, SpecChars, 0 ; Is SpecChars turned on?
 
 ; Load the hotkeys on start
 IniRead, AOT_key, TCU.ini, hotkey, AOT_key, ^!+Space
@@ -62,7 +60,8 @@ IniRead, TouchPad_key, TCU.ini, hotkey, TouchPad_key, ^F2
 
 ; Load permanently disabled items on start
 IniRead, disable_AOT, TCU.ini, disabled, disable_AOT, 0 ; Is AOT disabled?
-IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, 0 ; Is TouchPad disabled? 
+IniRead, disable_AOTMenu, TCU.ini, disabled, disable_AOTMenu, 0 ; Is AOTMenu disabled?
+IniRead, disable_TouchPad, TCU.ini, disabled, disable_TouchPad, 0 ; Is TouchPad disabled?
 
 ; ******************** TRAY MENU ********************
 
@@ -74,6 +73,7 @@ Menu, TopMenu, Add, Remove TCU, Top_Remove
 
 ; OptionsMenu
 Menu, OptionsMenu, Add, AlwaysOnTop, AOTCONFIG
+Menu, OptionsMenu, Add, AlwaysOnTop Menu, AOTMenuCONFIG
 Menu, OptionsMenu, Add, TouchPad, TouchPadCONFIG
 Menu, OptionsMenu, Add, SpecChars, SpecCharsCONFIG
 
@@ -85,7 +85,7 @@ Menu, Tray, Add
 Menu, Tray, Add, Options (Hotkeys), :OptionsMenu ; Add the Options sub-menu
 Menu, Tray, Add, Hotkey Customizer, hotkeyGUI
 Menu, Tray, Add
-Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
+Menu, Tray, Add, AOTMenu, AOTMenuAction
 Menu, Tray, Add, TouchPadToggle, TouchPadAction
 Menu, Tray, Add
 Menu, Tray, Add, Open TCUManual, OpenTCUManual
@@ -95,47 +95,62 @@ Menu, Tray, Add, Reload, RELOAD ; Add a reload button
 Menu, Tray, Add, Exit, EXIT ; Add an exit button
 
 ; Other Tray Menu Things
+Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
 Menu, Tray, Default, Open TCUManual ; Set the default menu
 Menu, Tray, Icon, Options (Hotkeys), data\settings_cog.ico
 Menu, Tray, Tip, TechieCableUtilities (v%version%) ; Tooltip
 
-; ******************** CHECK MARKS & DISABLED ITEMS ********************
-
-; Set the Check on start
-if (AOTCONFIG = 1) {
-	MENU, OptionsMenu, Check, AlwaysOnTop ; AOT checkmark
-}
-if (TouchPadCONFIG = 1) {
-	MENU, OptionsMenu, Check, TouchPad ; TouchPad checkmark
-}
-if (SpecCharsCONFIG = 1) {
-	Menu, OptionsMenu, Check, SpecChars ; SpecChars checkmark
-}
+; ******************** DISABLED ITEMS & CHECK MARKS ********************
 
 ; Disable Menu Items
 if (disable_AOT = 1) {
-	AOTCONFIG := 0
+	AOT_config := 0
 	MENU, OptionsMenu, Disable, AlwaysOnTop
-	IniWrite, %AOTCONFIG%, TCU.ini, config, AOT
+	IniWrite, %AOT_config%, TCU.ini, config, AOT
+}
+if (disable_AOTMenu = 1) {
+	AOTMenu_config := 0
+	MENU, OptionsMenu, Disable, AlwaysOnTop Menu
+	IniWrite, %AOT_config%, TCU.ini, config, AOT
 }
 if (disable_TouchPad = 1) {
-	TouchPadCONFIG := 0
+	TouchPad_config := 0
 	MENU, OptionsMenu, Disable, TouchPad
 	MENU, Tray, Disable, TouchPadToggle
-	IniWrite, %TouchPadCONFIG%, TCU.ini, config, TouchPad
+	IniWrite, %TouchPad_config%, TCU.ini, config, TouchPad
 }
+
+; Set the Check on start
+if (AOT_config = 1) {
+	MENU, OptionsMenu, Check, AlwaysOnTop ; AOT checkmark
+}
+if (AOTMenu_config = 1) {
+	MENU, OptionsMenu, Check, AlwaysOnTop Menu ; AOT Menu checkmark
+}
+if (TouchPad_config = 1) {
+	MENU, OptionsMenu, Check, TouchPad ; TouchPad checkmark
+}
+if (SpecChars_config = 1) {
+	Menu, OptionsMenu, Check, SpecChars ; SpecChars checkmark
+}
+
+; ******************** CUSTOM FILES ********************
+
+#Include *i data\addon.txt
 
 ; ******************** HOTKEY ACTIONS ********************
 
 ; Only perform actions when set to "on"
-if (AOTCONFIG = 1) {
+if (AOT_config = 1) {
 	Hotkey, %AOT_key%, AOTAction, On
+}
+if (AOTMenu_config = 1) {
 	Hotkey, %AOTMenu_key%, AOTMenuAction, On
 }
-if (TouchPadCONFIG = 1) {
+if (TouchPad_config = 1) {
 	Hotkey, %TouchPad_key%, TouchPadAction, On
 }
-if (SpecCharsCONFIG = 1) {
+if (SpecChars_config = 1) {
 	Gosub, SpecCharsAction
 }
 
@@ -150,22 +165,29 @@ exit
 
 ; Set checkmark, write to .ini file for AOT
 AOTCONFIG:
-	TCUIniChange(AOTCONFIG, "AlwaysOnTop", "AOT")
+	TCUIniChange(AOT_config, "AlwaysOnTop", "AOT")
 	
-	if (AOTCONFIG = 1) {
+	if (AOT_config = 1) {
 		Hotkey, %AOT_key%, AOTAction, On
-		Hotkey, %AOTMenu_key%, AOTMenuAction, On
 	} else {
 		Hotkey, %AOT_key%, AOTAction, Off
+	}
+return
+
+AOTMenuCONFIG:
+	TCUIniChange(AOTMenu_config, "AlwaysOnTop Menu", "AOTMenu")
+	if (AOTMenu_config = 1) {
+		Hotkey, %AOTMenu_key%, AOTMenuAction, On
+	} else {
 		Hotkey, %AOTMenu_key%, AOTMenuAction, Off
 	}
 return
 
 ; Set checkmark, write to .ini file for TouchPad
 TouchPadCONFIG:
-	TCUIniChange(TouchPadCONFIG, "TouchPad", "TouchPad")
+	TCUIniChange(TouchPad_config, "TouchPad", "TouchPad")
 	
-	if (TouchPadCONFIG = 1) {
+	if (TouchPad_config = 1) {
 		Hotkey, %TouchPad_key%, TouchPadAction, On
 	} else {
 		Hotkey, %TouchPad_key%, TouchPadAction, Off
@@ -173,7 +195,7 @@ TouchPadCONFIG:
 return
 
 SpecCharsCONFIG:
-	TCUIniChange(SpecCharsCONFIG, "SpecChars", "SpecChars")
+	TCUIniChange(SpecChars_config, "SpecChars", "SpecChars")
 return
 
 ; ******************** OTHER ACTIONS ********************
@@ -187,13 +209,13 @@ AOTMenuAction:
 		Menu, AOTMenu, DeleteAll
 	}
 	
-	MenuFunction := func("AOTFunction")
+	MenuFunction := func("AOTMenuFunction")
 	
 	; Menu Top Section
-	Menu, AOTMenu, Add, AlwaysOnTop Selector, Blank
+	Menu, AOTMenu, Add, AlwaysOnTop Selector, blank
 	Menu, AOTMenu, Default, AlwaysOnTop Selector
 	Menu, AOTMenu, Add
-	Menu, AOTMenu, Add, Click a window name to toggle pin, Blank
+	Menu, AOTMenu, Add, Click a window name to toggle pin, blank
 	Menu, AOTMenu, Add
 	
 	; List windows
@@ -211,7 +233,7 @@ AOTMenuAction:
 	}
 	Menu, AOTMenu, Show
 	
-	AOTFunction(ItemName) {
+	AOTMenuFunction(ItemName) {
 		WinSet, AlwaysOnTop, Toggle, % ItemName
 		Menu, AOTMenu, ToggleCheck, % ItemName
 	}
@@ -223,7 +245,7 @@ TouchPadAction:
 	MENU, Tray, ToggleCheck, TouchPadToggle
 return
 
-; ******************** HOTKEY GUI ********************
+; ******************** SCRIPT GUIs ********************
 
 hotkeyGUI:
 	try {
@@ -231,38 +253,81 @@ hotkeyGUI:
 		Hotkey, %AOTMenu_key%, Off
 		Hotkey, %TouchPad_key%, Off
 	}
-	Gui, hotkeyGUI:New, +AlwaysOnTop, TCU Hotkey Customizer
+	Gui, hotkeyGUI:New, +AlwaysOnTop +LabelGui, TCU Hotkey Customizer
 	Gui, hotkeyGUI:Add, Text, x2 y10 w100 h20, AlwaysOnTop
 	Gui, hotkeyGUI:Add, Hotkey, x2 y30 w150 h30 vAOT_key, %AOT_key%
 	Gui, hotkeyGUI:Add, Text, x2 y60 w100 h20, AOT Menu
 	Gui, hotkeyGUI:Add, Hotkey, x2 y80 w150 h30 vAOTMenu_key, %AOTMenu_key%
 	Gui, hotkeyGUI:Add, Text, x2 y110 w100 h20, TouchPad
 	Gui, hotkeyGUI:Add, Hotkey, x2 y130 w150 h30 vTouchPad_key, %TouchPad_key%
-	Gui, hotkeyGUI:Add, Button, x2 y165 w50 h20 Default gsubmitHotkey, Submit
-	Gui, hotkeyGUI:Add, Button, x55 y165 w50 h20 gcancelHotkey, Cancel
+	Gui, hotkeyGUI:Add, Button, x2 y165 w50 h20 Default gGUILabel, Submit
+	Gui, hotkeyGUI:Add, Button, x55 y165 w50 h20 gGUILabel, Cancel
 	Gui, hotkeyGUI:Show, AutoSize Center
 return
 
-submitHotkey:
-	Gui, hotkeyGUI:Submit
-	Gui, hotkeyGUI:Destroy
-	if (AOT_key = "") {
-		AOT_key=^!+Space
-	}
-	if (AOTMenu_key = "") {
-		AOTMenu_key=^!+Up
-	}
-	if (TouchPad_key = "") {
-		TouchPad_key=^F2
-	}
-	IniWrite, %AOT_key%, TCU.ini, hotkey, AOT_key
-	IniWrite, %AOTMenu_key%, TCU.ini, hotkey, AOTMenu_key
-	IniWrite, %TouchPad_key%, TCU.ini, hotkey, TouchPad_key
-	Gosub, RELOAD
+OpenTCUManual:
+	Gui, ManualGUI:New, +AlwaysOnTop +LabelGui, TCUManual
+	Gui, ManualGUI:Add, ActiveX, w500 h400 vShellTCUManual, Shell.Explorer
+	ShellTCUManual.Navigate(A_ScriptDir "\TCUManual.html")
+	Gui, ManualGUI:Add, Button, Default gGUILabel, Close
+	Gui, ManualGUI:Show
 return
-cancelHotkey:
-	Gui, hotkeyGUI:Destroy
+
+GuiClose:
+GuiEscape:
+GUILabel: ; For buttons fired in above GUIs
+	if (A_Gui = "hotkeyGUI") { ; hotkeyGUI activated
+		if (A_GuiControl = "Submit") { ; Submit button pressed
+			Gui, hotkeyGUI:Submit
+			Gui, hotkeyGUI:Destroy
+			
+			if (AOT_key = "") {
+				AOT_key=^!+Space
+			}
+			if (AOTMenu_key = "") {
+				AOTMenu_key=^!+Up
+			}
+			if (TouchPad_key = "") {
+				TouchPad_key=^F2
+			}
+			
+			IniWrite, %AOT_key%, TCU.ini, hotkey, AOT_key
+			IniWrite, %AOTMenu_key%, TCU.ini, hotkey, AOTMenu_key
+			IniWrite, %TouchPad_key%, TCU.ini, hotkey, TouchPad_key
+			
+			try {
+				Hotkey, %AOT_key%, On
+				Hotkey, %AOTMenu_key%, On
+				Hotkey, %TouchPad_key%, On
+			}
+			; Gosub, RELOAD
+		} else if (A_GuiControl = "Cancel") { ; Cancel button pressed
+			Gui, hotkeyGUI:Destroy
+			
+			try {
+				Hotkey, %AOT_key%, On
+				Hotkey, %AOTMenu_key%, On
+				Hotkey, %TouchPad_key%, On
+			}
+		} else {
+			Gui, hotkeyGUI:Destroy
+			
+			try {
+				Hotkey, %AOT_key%, On
+				Hotkey, %AOTMenu_key%, On
+				Hotkey, %TouchPad_key%, On
+			}
+		}
+	} else if (A_Gui = "ManualGUI") { ; ManualGUI activated
+		if (A_GuiControl = "Close") { ; Close button pressed
+			Gui, ManualGUI:Destroy
+		} else {
+			Gui, ManualGUI:Destroy
+		}
+	}
 return
+
+; ******************** INI FILE MONITOR ********************
 
 checkFile:
 	FileRead, newFileContent, TCU.ini
@@ -276,18 +341,6 @@ checkFile:
 		IfMsgBox, Timeout
 			Gosub, RELOAD
 	}
-return
-
-OpenTCUManual:
-	Gui, ManualGUI:New, +AlwaysOnTop, TCUManual
-	Gui, ManualGUI:Add, ActiveX, w500 h400 vShellTCUManual, Shell.Explorer
-	ShellTCUManual.Navigate(A_ScriptDir "\TCUManual.html")
-	Gui, ManualGUI:Add, Button, Default gTCUManualGUIClose, Close
-	Gui, ManualGUI:Show
-return
-
-TCUManualGUIClose:
-	Gui, ManualGUI:Destroy
 return
 
 ; ******************** CUSTOM SCRIPT ********************
@@ -311,7 +364,7 @@ EXIT:
 	ExitApp
 exit
 
-Blank:
+blank:
 return
 
 ; ******************** SPECIAL CHARACTERS ********************
@@ -321,7 +374,7 @@ SpecCharsAction:
 	#EscapeChar |
 	#Hotstring ?C
 	SetTitleMatchMode RegEx
-	#IF (SpecCharsCONFIG = 1)
+	#IF (SpecChars_config = 1)
 	#IF !WinActive("Mathway.*Problem Solver")
 		; Spanish Characters
 		:*:`a::{U+00e1}
@@ -368,6 +421,7 @@ return
 Top_Web:
 	Run https://techiecable.github.io
 return
+
 Top_Remove:
 	MsgBox, 262211, Remove TechieCableUtilities, You are about to remove TechieCableUtilities from your computer.`nPress "Yes" to create a backup of your settings and delete TechieCableUtilities. Press "No" to delete TechieCableUtilities without a backup. Press "Cancel" to cancel the deletion
 	IfMsgBox Yes
@@ -384,6 +438,7 @@ rmdir /s /q "TechieCableUtilities"
 	Run, %comspec% /c %commands%,, Hide
 	ExitApp
 return
+
 Top_Backup:
 	backupFolder := A_Desktop . "\TCUBackup"
 	FileCreateDir, %backupFolder%
@@ -395,6 +450,7 @@ Top_Backup:
 		FileCopy, data\gosub.txt, %backupFolder%\data\gosub.txt, 1
 	if FileExist("data\SpecChars.txt")
 		FileCopy, data\SpecChars.txt, %backupFolder%\data\SpecChars.txt, 1
+	IniDelete, %backupFolder%\TCU.ini, about
 	MsgBox, 262212, TCUBackup Created, TCUBackup was created.`nView the backup folder?
 	IfMsgBox Yes
 		Run, %backupFolder%

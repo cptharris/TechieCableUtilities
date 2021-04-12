@@ -57,8 +57,6 @@ IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
 
 ; ***** STARTUP *****
 
-IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, LauncherPID
-
 if %TechieCablePID% not contains CLOSED
 {
 	Process, Close, %TechieCablePID%
@@ -114,9 +112,11 @@ progressFunc("Installing necessary files")
 if !FileExist("TCU.ini")
 {
 	IniWrite, 1, TCU.ini, config, AOT
+	IniWrite, 0, TCU.ini, config, AOTMenu
 	IniWrite, 0, TCU.ini, config, TouchPad
 	IniWrite, 0, TCU.ini, config, SpecChars
 }
+IniWrite, % DllCall("GetCurrentProcessId"), TCU.ini, about, LauncherPID
 IniWrite, %version%, TCU.ini, about, version
 
 progressFunc("Updating user settings")
