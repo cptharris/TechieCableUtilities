@@ -2,7 +2,7 @@ version = 1.0.12
 ; WRITTEN BY TECHIECABLE
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
-dir := appdata . "\TechieCableUtilities"
+dir := A_AppData . "\TechieCableUtilities"
 setworkingdir %dir%
 #SingleInstance Force
 
@@ -29,7 +29,7 @@ ErrorFunc(e) {
 	error_analytics.silent := true
 	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Setup Error Reporter
 	
-	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "" e.extra "-----"
+	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "`n" e.extra "`n-----"
 	
 	error_analytics.Navigate(analytics(exceptionText))
 	Sleep 500
@@ -44,13 +44,70 @@ ErrorFunc(e) {
 	return true
 }
 
-if A_Args[1]="--update" {
-	isUpdate := 1
-} else {
+; ***** Process Parameters *****
+isUpdate := 0
+isCustomDir := 0
+customDir := ""
+for n, param in A_Args
+{
+	if InStr(param, "--update") {
+		isUpdate := 1
+	}
+	if InStr(param, "--directory=") {
+		isCustomDir := 1
+		
+		RegExMatch(param, "--directory=(.*)", customDir)
+		customDir := customDir1
+		Loop, Files, %customDir%
+			customDir := A_LoopFileFullPath
+	}
+}
+
+if (isUpdate = 0) {
 	if FileExist("TCU.ini") {
 		isUpdate := 1
+	}
+}
+
+; ***** CUSTOM INSTALL DIRECOTORY FUNCTION *****
+
+verifyDir(customDir, retry:=0) { ; returns 0 on success, 1 on failure, 2 on retry request
+	global dir
+	Gui +OwnDialogs
+	
+	if !FileExist(customDir "\") {
+		if retry {
+			MsgBox, 262197, TCUSetup, %customDir% does not exist. Click retry to enter a different directory. Click cancel to install to the default directory.`nBe sure not to include the trailing slash. Remember to reference the directory directly.
+			IfMsgBox, Retry
+				return 2
+			return 1
+		} else {
+			MsgBox, 262192, TCUSetup, %customDir% does not exist. The default install folder will be used instead.`nBe sure not to include the trailing slash. Remember to reference the directory directly.
+			return 1
+		}
+	}
+	
+	testFile := "test" A_NowUTC ".tmp"
+	FileAppend, test, %customDir%\%testFile%
+	Sleep, 200
+	
+	if !FileExist(customDir "\" testFile) {
+		if retry {
+			MsgBox, 262197, TCUSetup, TechieCableUtilities cannot access %customDir%. Click retry to enter a different directory. Click cancel to install to the default directory.`nBe sure not to include the trailing slash. Remember to reference the directory directly.
+			IfMsgBox, Retry
+				return 2
+			return 1
+		} else {
+			MsgBox, 262192, TCUSetup, TechieCableUtilities cannot access %customDir%. The default install folder will be used instead.`nBe sure not to include the trailing slash. Remember to reference the directory directly.
+			return 1
+		}
 	} else {
-		isUpdate := 0
+		FileDelete, %customDir%\%testFile%
+		
+		dir := StrReplace(customDir, "TechieCableUtilities")
+		dir .= "\TechieCableUtilities"
+		setworkingdir %dir%
+		return 0
 	}
 }
 
@@ -108,6 +165,9 @@ if (isUpdate = 1) {
 Gui, Font
 Gui, 2:Add, CheckBox, xp y180 vT_DesktopShortcut, Desktop Shortcut
 Gui, 2:Add, CheckBox, vT_StartUp Checked, Add to startup (Recommended)
+Gui, 2:Add, CheckBox, vT_TouchpadToggle Checked, Include TouchPadToggle.exe
+Gui, 2:Add, Text, y+10, Install Directory:
+Gui, 2:Add, Edit, r1 vT_CustomDir w300, %dir%
 Gui, 2:Add, Button, y+10 Default gContinue_Options, Install
 
 ; ***** INSTALL GUI *****
@@ -177,6 +237,7 @@ Continue_InfoSent:
 	{
 		listArgs .= "(" n ") > " param "`n"
 	}
+	Gui +OwnDialogs
 	MsgBox, 262144, Data to Transmit, % "The following data will be transmitted to monitor traffic and fix bugs:`n"
 	. "Time and date: " . A_NowUTC . "`n"
 	. "Script directory: " . StrReplace(A_ScriptDir, A_UserName, "<username>") . "`n"
@@ -195,6 +256,11 @@ return
 
 Continue_Options:
 	Gui, 2:Submit
+	verifyDirResult := verifyDir(T_CustomDir, 1)
+	if (verifyDirResult = 2) {
+		Gui, 2:Show
+		return
+	}
 	Gui, 2:Destroy
 	Gui, 3:Show, w620 Center, TechieCableUtilities Setup
 	gosub, process_install
@@ -249,25 +315,83 @@ process_install:
 	FileInstall, TCU\TCULauncher.exe, %dir%\TCULauncher.exe, 1
 	progressFunc("Installing launcher")
 	
-	; Add the TouchpadToggle .exe
-	FileInstall, TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
-	progressFunc("Installing TouchpadToggle")
+	
+	if T_TouchpadToggle {
+		; Add the TouchpadToggle .exe
+		FileInstall, TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
+		progressFunc("Installing TouchpadToggle")
+	}
 	
 	; ***** RESTORE BACKUP FILES *****
 	
+	installError := 0
+	
 	if (TCUiniEx=1) {
 		FileAppend, %TCUiniContents%, TCU.ini
+		if !FileExist("TCU.ini") {
+			installError := 1
+		}
 	}
 	if (AddonEx=1) {
 		FileAppend, %AddonContents%, data\addon.txt
+		if !FileExist("data\addon.txt") {
+			installError := 1
+		}
 	}
 	if (GosubEx=1) {
 		FileAppend, %GosubContents%, data\gosub.txt
+		if !FileExist("data\gosub.txt") {
+			installError := 1
+		}
 	}
 	if (SpecCharsEx=1) {
 		FileAppend, %SpecCharsContents%, data\SpecChars.txt
+		if !FileExist("data\SpecChars.txt") {
+			installError := 1
+		}
 	}
+	
 	progressFunc("Attempting to restore backups")
+	
+	if !FileExist("TCULauncher.exe") || installError { ; if the installation failed
+		Gui +OwnDialogs
+		progressFunc("INSTALLATION FAILED")
+		
+		install_analytics.Navigate(analytics("-----`n> " A_LineFile " (" A_LineNumber ")`n> """ A_ThisLabel """ threw the error:`n" "INSTALLATION FAILED: TCULauncher or a user file was not restored. Backups will be attempted and the installation will restart." "`n-----"))
+		
+		MsgBox, 262160, INSTALLATION FAILED, TCULauncher or a user file was not restored. Backups will be attempted and the installation will restart.
+		
+		backupFolder := A_Desktop . "\TCUBackup"
+		FileCreateDir %backupFolder%\data
+		
+		if (TCUiniEx=1) {
+			FileAppend, %TCUiniContents%, %backupFolder%\TCU.ini
+		}
+		if (AddonEx=1) {
+			FileAppend, %AddonContents%, %backupFolder%\data\addon.txt
+		}
+		if (GosubEx=1) {
+			FileAppend, %GosubContents%, %backupFolder%\data\gosub.txt
+		}
+		if (SpecCharsEx=1) {
+			FileAppend, %SpecCharsContents%, %backupFolder%\data\SpecChars.txt
+		}
+		
+		for n, param in A_Args  ; For each parameter:
+		{
+			argumentList .= param " "
+		}
+		commands=
+		(join& LTrim
+			@echo off
+			start %backupFolder%
+			timeout /t 2 /nobreak>nul
+			%A_ScriptFullPath% %argumentList%
+			exit
+		)
+		Run, %comspec% /c %commands%,, Hide
+		ExitApp
+	}
 	
 	progressFunc("Wrapping up install")
 	install_analytics.Navigate(analytics("0"))

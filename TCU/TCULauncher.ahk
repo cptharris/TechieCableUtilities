@@ -27,7 +27,7 @@ ErrorFunc(e) {
 	error_analytics.silent := true
 	Gui, Error:Show, w0 h0 x0 y0 Hide, TechieCableUtilities Launcher Error Reporter
 	
-	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "" e.extra "-----"
+	exceptionText := "-----`n> " e.file " (" e.line ")`n> """ e.what """ threw the error:`n" e.message "`n" e.extra "`n-----"
 	
 	error_analytics.Navigate(analytics(exceptionText))
 	Sleep 500
@@ -161,7 +161,11 @@ update:
 			return
 		IfMsgBox, OK
 			UrlDownloadToFile, https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe, %A_Desktop%\TCUSetup.exe
-			Run, %A_Desktop%\TCUSetup.exe "--update"
+			if A_ScriptDir contains A_AppData
+				cmdLine := "--update"
+			if A_ScriptDir not contains A_AppData
+				cmdLine := "--update --directory=""" A_ScriptDir """"
+			Run, %A_Desktop%\TCUSetup.exe %cmdLine%
 			if %TechieCablePID% not contains CLOSED
 			{
 				Process, Close, %TechieCablePID%
