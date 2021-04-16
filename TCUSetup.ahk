@@ -139,7 +139,7 @@ Gui, Color, White
 Gui, Margin, 0, 0
 Gui, 1:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
-Gui, 1:Add, Text, x+10 y10, TechieCableUtilites Setup
+Gui, 1:Add, Text, x+10 y10, TechieCableUtilities Setup
 Gui, Font, s15
 Gui, 1:Add, Text,, License && Privacy Policy
 Gui, Font
@@ -157,7 +157,7 @@ Gui, 2:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 2:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
-Gui, 2:Add, Text, x+10 y10, TechieCableUtilites Setup
+Gui, 2:Add, Text, x+10 y10, TechieCableUtilities Setup
 Gui, Font, s15
 if (isUpdate = 1) {
 	Gui, 2:Add, Text,, Update Options
@@ -178,7 +178,7 @@ Gui, 3:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 3:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
-Gui, 3:Add, Text, x+10 y10, TechieCableUtilites Setup
+Gui, 3:Add, Text, x+10 y10, TechieCableUtilities Setup
 Gui, Font, s15
 if (isUpdate = 1) {
 	Gui, 3:Add, Text,, Updating TechieCableUtilities
@@ -188,9 +188,9 @@ if (isUpdate = 1) {
 Gui, Font
 Gui, 3:Add, Progress, xp y200 w400 h20 c6A00A7 vSetupProgress, 0
 if (isUpdate = 1) {
-	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to update TechieCableUtilites...
+	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to update TechieCableUtilities...
 } else {
-	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to install TechieCableUtilites...
+	Gui, 3:Add, Text, y+10 vinstallMessage, Preparing to install TechieCableUtilities...
 }
 
 ; ***** FINISH GUI *****
@@ -199,7 +199,7 @@ Gui, 4:New, +AlwaysOnTop, TechieCableUtilities Setup
 Gui, Margin, 0, 0
 Gui, 4:Add, Picture, x0 y0 w200 h-1, %pic%
 Gui, Font, s20
-Gui, 4:Add, Text, x+10 y10, TechieCableUtilites Setup
+Gui, 4:Add, Text, x+10 y10, TechieCableUtilities Setup
 Gui, Font, s15
 if (isUpdate = 1) {
 	Gui, 4:Add, Text,, TechieCableUtilities Updated
