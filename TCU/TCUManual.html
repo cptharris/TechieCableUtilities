@@ -2,12 +2,14 @@
 <html>
 
 <head>
-	<link rel="icon" href="https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU.ico" type="image/x-icon">
+	<link rel="icon" href="https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/imgs/TCU.ico" type="image/x-icon">
 	<title>TCUManual</title>
 	<meta charset="UTF-8">
 </head>
 
 <body>
+	<img src="https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/imgs/TCU.ico">
+	<!-- START -->
 	<h1 id="techiecableutilities">TechieCableUtilities</h1>
 	<h2 id="tcumanual">TCUManual</h2>
 	<p>TechieCableUtilities is a lightweight, independent program made by TechieCable. It includes some of TechieCable's favorite utilities - all in one small program!
@@ -64,7 +66,7 @@
 		<li>Left-click "TouchPadToggle"</li>
 	</ul>
 	<p>** TouchPad only works on some computers and requires a touchpad to be included in the computer. Please check if your computer has a touchpad before using</p>
-	<p>** TouchPad relies on an external script (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">data\TouchpadToggle.exe</code>) to work. You may have to allow this program through your security/antivirus program
+	<p>** TouchPad relies on an external script (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">app\TouchpadToggle.exe</code>) to work. You may have to allow this program through your security/antivirus program
 	</p>
 	<h4 id="use-the-alwaysontop-menu-alwaysontop-">Use the AlwaysOnTop Menu (AlwaysOnTop **)</h4>
 	<ul>
@@ -125,10 +127,10 @@
 	<ul>
 		<li>And then choose one or more of the following:</li>
 	</ul>
-	<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_AOT=1</code><br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_TouchPad=1</code><br><code
-		 style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_loading=1</code></p>
+	<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_AOT=1</code><br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_AOTMenu</code><br><code
+		 style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_TouchPad=1</code><br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_loading=1</code></p>
 	<ul>
-		<li>Remove any of the above to allow the feature again (or set =0 instead)</li>
+		<li>Remove any of the above to allow the feature again (or set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">=0</code> instead)</li>
 	</ul>
 	<p>** Use <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disable_loading</code> if you don't want to see the TCULauncher loading screen</p>
 	<h3 id="top-menu">Top Menu</h3>
@@ -143,7 +145,7 @@
 		<li>TechieCableUtilities will create a backup in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">%userprofile%\Desktop\TCUBackup</code> folder</li>
 	</ul>
 	<h4 id="delete-techiecableutilities-general-">Delete TechieCableUtilities (General *)</h4>
-	<p>If you don't want TechieCableUtilities anymore, something is broken, or you want to uninstall to reinstall, you can remove TechieCableUtilites from your computer.
+	<p>If you don't want TechieCableUtilities anymore, something is broken, or you want to uninstall to reinstall, you can remove TechieCableUtilities from your computer.
 		To do this, you can either delete TechieCableUtilities' folder or use the built-in removal function</p>
 	<ul>
 		<li>OPTION ONE:<ul>
@@ -153,7 +155,7 @@
 			</ul>
 		</li>
 		<li>OPTION TWO:<ul>
-				<li>Right-click TechieCableUtilties in your toolbar and click "Remove TCU" (Under the TechieCableUtilites menu)</li>
+				<li>Right-click TechieCableUtilities in your toolbar and click "Remove TCU" (Under the TechieCableUtilities menu)</li>
 				<li>TechieCableUtilities will ask you if you would like to backup your settings</li>
 				<li>A small window may briefly appear; this is the command deleting the folder</li>
 				<li>Done!</li>
@@ -163,11 +165,11 @@
 	<h3 id="customization">Customization</h3>
 	<h4 id="use-a-custom-icon-for-the-options-menu-general-">Use a custom icon for the options menu (General ***)</h4>
 	<ul>
-		<li>Replace <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">data\settings_cog.ico</code> with your own <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">.ico</code> file
+		<li>Replace <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">app\settings_cog.ico</code> with your own <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">.ico</code> file
 		</li>
 		<li>Reload the program</li>
 	</ul>
-	<p>** To revert to the original, simply delete <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">data\settings_cog.ico</code> and restart the program</p>
+	<p>** To revert to the original, simply delete <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">app\settings_cog.ico</code> and restart the program</p>
 	<h4 id="use-custom-hotkeys-part-1-general-">Use custom hotkeys: Part 1 (General **)</h4>
 	<p>In v1.0.8, customizing hotkeys became so much easier!:</p>
 	<ul>
@@ -206,12 +208,15 @@
 	<h4 id="addons-general-">Addons (General *****)</h4>
 	<p><strong>This is a very advanced feature.</strong> Make sure to read the resources found at the <a href="https://www.autohotkey.com/docs/AutoHotkey.htm">AutoHotkey docs website</a></p>
 	<ul>
-		<li>TechieCableUtilities searches its data directory for a file called <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">addon.txt</code> and runs anything in that file</li>
-		<li>If you need to add a callable function, put it in a file called <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">gosub.txt</code> (in the data directory) and call it with "gosub" or a timer in the <code
+		<li>TechieCableUtilities searches its <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">usr</code> directory for a file called <code
+			 style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">addon.txt</code> and runs anything in that file</li>
+		<li>If you need to add a callable function, put it in a file called <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">gosub.txt</code> (in the <code
+			 style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">usr</code> directory) and call it with "gosub" or a timer in the <code
 			 style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">addon.txt</code> file</li>
 		<li>If you are feeling really adventurous, try adding code into this file (in AutoHotkey)!</li>
 		<li>TechieCableUtilities is written in AutoHotkey, which you can learn more about at <a href="https://www.autohotkey.com">www.autohotkey.com</a></li>
 	</ul>
+	<!-- END -->
 </body>
 
 </html>

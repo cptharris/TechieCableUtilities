@@ -18,7 +18,7 @@ T_TEMP := A_Temp "\TCU.tmp"
 #SingleInstance Force
 #NoTrayIcon
 
-#Include *i analytics.ahk
+#Include *i app\analytics.ahk
 
 OnError("ErrorFunc")
 ErrorFunc(e) {
@@ -70,7 +70,7 @@ if (disable_loading = 1)
 	Gui, New, +AlwaysOnTop +ToolWindow -Border -Caption, TCULauncher
 	Gui, Margin, 0, 0
 	try {
-		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/TCU/data/TCUico.gif"
+		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/imgs/TCUico.gif"
 		Gui, Add, ActiveX, w60 h60, % "mshtml:<img width=100% src='" pic "' />"
 	} catch {
 		Gui, Add, Picture,, TCULauncher.exe
@@ -96,15 +96,15 @@ progressFunc("Latest version v"versionNum)
 ; ***** DOWNLOADS *****
 
 ; Download AHK
-FileInstall, data\AutoHotkey.exe, %A_scriptdir%\data\AutoHotkey.exe, 1
+FileInstall, app\AutoHotkey.exe, %A_scriptdir%\app\AutoHotkey.exe, 1
 
 progressFunc("Checking for ahk files")
 
 ; Download TechieCableUtilities.ahk
-FileInstall, TechieCableUtilities.ahk, %A_scriptdir%\TechieCableUtilities.ahk, 1
+FileInstall, app\TechieCableUtilities.ahk, %A_scriptdir%\app\TechieCableUtilities.ahk, 1
 
 ; Install the settings_cog.ico and TCUManual.html
-FileInstall, data\settings_cog.ico, data\settings_cog.ico, 0
+FileInstall, ..\imgs\settings_cog.ico, app\settings_cog.ico, 0
 FileInstall, TCUManual.html, TCUManual.html, 1
 
 progressFunc("Installing necessary files")
@@ -129,7 +129,7 @@ Gui, Submit
 Gui, Destroy
 
 ; Run TechieCableUtilities
-Run %A_scriptdir%\data\Autohotkey.exe %A_scriptdir%\TechieCableUtilities.ahk
+Run %A_scriptdir%\app\Autohotkey.exe %A_scriptdir%\app\TechieCableUtilities.ahk
 
 IniWrite, CLOSED, TCU.ini, about, LauncherPID
 ExitApp
