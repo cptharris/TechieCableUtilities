@@ -414,14 +414,23 @@ process_backup:
 	if FileExist("usr\addon.txt") {
 		AddonEx=1
 		FileRead, AddonContents, usr\addon.txt
+	} else if FileExist("data\addon.txt") {
+		SpecCharsEx=1
+		FileRead, SpecCharsContents, data\addon.txt
 	}
 	if FileExist("usr\gosub.txt") {
 		GosubEx=1
 		FileRead, GosubContents, usr\gosub.txt
+	} else if FileExist("data\gosub.txt") {
+		GosubEx=1
+		FileRead, GosubContents, data\gosub.txt
 	}
 	if FileExist("usr\SpecChars.txt") {
 		SpecCharsEx=1
 		FileRead, SpecCharsContents, usr\SpecChars.txt
+	} else if FileExist("data\SpecChars.txt") {
+		SpecCharsEx=1
+		FileRead, SpecCharsContents, data\SpecChars.txt
 	}
 return
 
