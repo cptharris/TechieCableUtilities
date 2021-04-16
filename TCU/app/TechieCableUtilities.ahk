@@ -2,7 +2,7 @@ version = 1.0.12
 ; WRITTEN BY TECHIECABLE
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
-setworkingdir, %A_scriptdir%
+setworkingdir, ..\%A_scriptdir%
 #SingleInstance Force
 #NoEnv
 #Persistent
@@ -97,7 +97,9 @@ Menu, Tray, Add, Exit, EXIT ; Add an exit button
 ; Other Tray Menu Things
 Menu, Tray, NoStandard ; Remove default AHK tray menu buttons
 Menu, Tray, Default, Open TCUManual ; Set the default menu
-Menu, Tray, Icon, Options (Hotkeys), data\settings_cog.ico
+try {
+	Menu, Tray, Icon, Options (Hotkeys), app\settings_cog.ico
+}
 Menu, Tray, Tip, TechieCableUtilities (v%version%) ; Tooltip
 
 ; ******************** DISABLED ITEMS & CHECK MARKS ********************
@@ -136,7 +138,7 @@ if (SpecChars_config = 1) {
 
 ; ******************** CUSTOM FILES ********************
 
-#Include *i data\addon.txt
+#Include *i usr\addon.txt
 
 ; ******************** HOTKEY ACTIONS ********************
 
@@ -241,7 +243,7 @@ return
 
 TouchPadAction:
 	touchpadEnabled := !touchpadEnabled
-	Run, data\TouchpadToggle.exe %touchpadEnabled%
+	Run, app\TouchpadToggle.exe %touchpadEnabled%
 	MENU, Tray, ToggleCheck, TouchPadToggle
 return
 
@@ -346,7 +348,7 @@ return
 ; ******************** CUSTOM SCRIPT ********************
 
 addon:
-	#Include *i data\gosub.txt
+	#Include *i usr\gosub.txt
 return
 
 ; ******************** GENERAL FUNCTIONS ********************
@@ -410,7 +412,7 @@ SpecCharsAction:
 		:*:`~=::{U+2248}
 		:*:`<=::{U+2264}
 		:*:`>=::{U+2265}
-		#Include *i data\SpecChars.txt
+		#Include *i usr\SpecChars.txt
 		SetTitleMatchMode %Old_TitleMatchMode%
 		#EscapeChar `
 	#If
@@ -442,14 +444,14 @@ return
 Top_Backup:
 	backupFolder := A_Desktop . "\TCUBackup"
 	FileCreateDir, %backupFolder%
-	FileCreateDir, %backupFolder%\data
+	FileCreateDir, %backupFolder%\usr
 	FileCopy, TCU.ini, %backupFolder%\TCU.ini, 1
-	if FileExist("data\addon.txt")
-		FileCopy, data\addon.txt, %backupFolder%\data\addon.txt, 1
-	if FileExist("data\gosub.txt")
-		FileCopy, data\gosub.txt, %backupFolder%\data\gosub.txt, 1
-	if FileExist("data\SpecChars.txt")
-		FileCopy, data\SpecChars.txt, %backupFolder%\data\SpecChars.txt, 1
+	if FileExist("usr\addon.txt")
+		FileCopy, usr\addon.txt, %backupFolder%\usr\addon.txt, 1
+	if FileExist("usr\gosub.txt")
+		FileCopy, usr\gosub.txt, %backupFolder%\usr\gosub.txt, 1
+	if FileExist("usr\SpecChars.txt")
+		FileCopy, usr\SpecChars.txt, %backupFolder%\usr\SpecChars.txt, 1
 	IniDelete, %backupFolder%\TCU.ini, about
 	MsgBox, 262212, TCUBackup Created, TCUBackup was created.`nView the backup folder?
 	IfMsgBox Yes

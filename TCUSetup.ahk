@@ -20,7 +20,7 @@ T_TEMP := A_Temp "\TCU.tmp"
 
 ; ***** ERROR PREP *****
 
-#Include *i TCU\analytics.ahk
+#Include *i TCU\app\analytics.ahk
 
 OnError("ErrorFunc")
 ErrorFunc(e) {
@@ -115,7 +115,7 @@ verifyDir(customDir, retry:=0) { ; returns 0 on success, 1 on failure, 2 on retr
 ; ***** CREATE SETUPWIZARD PIC *****
 FileCreateDir, %T_TEMP%
 pic := T_TEMP "\setupwizard.png"
-URLDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/setupwizard.png, %pic%
+URLDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/imgs/setupwizard.png, %pic%
 
 ; ***** PROGRESS FUNC *****
 progressFunc(message,min:=0,max:=20) {
@@ -305,7 +305,8 @@ process_install:
 	; ***** CREATE DIRECTORIES *****
 	
 	FileCreateDir, %dir%
-	FileCreateDir, %dir%\data
+	FileCreateDir, %dir%\usr
+	FileCreateDir, %dir%\app
 	progressFunc("Creating directories")
 	
 	; ***** INSTALL FILES *****
@@ -320,7 +321,7 @@ process_install:
 	
 	if T_TouchpadToggle {
 		; Add the TouchpadToggle .exe
-		FileInstall, TCU\data\TouchpadToggle.exe, %dir%\data\TouchpadToggle.exe, 1
+		FileInstall, TCU\app\TouchpadToggle.exe, %dir%\app\TouchpadToggle.exe, 1
 		progressFunc("Installing TouchpadToggle")
 	}
 	
@@ -335,20 +336,20 @@ process_install:
 		}
 	}
 	if (AddonEx=1) {
-		FileAppend, %AddonContents%, data\addon.txt
-		if !FileExist("data\addon.txt") {
+		FileAppend, %AddonContents%, usr\addon.txt
+		if !FileExist("usr\addon.txt") {
 			installError := 1
 		}
 	}
 	if (GosubEx=1) {
-		FileAppend, %GosubContents%, data\gosub.txt
-		if !FileExist("data\gosub.txt") {
+		FileAppend, %GosubContents%, usr\gosub.txt
+		if !FileExist("usr\gosub.txt") {
 			installError := 1
 		}
 	}
 	if (SpecCharsEx=1) {
-		FileAppend, %SpecCharsContents%, data\SpecChars.txt
-		if !FileExist("data\SpecChars.txt") {
+		FileAppend, %SpecCharsContents%, usr\SpecChars.txt
+		if !FileExist("usr\SpecChars.txt") {
 			installError := 1
 		}
 	}
@@ -364,19 +365,19 @@ process_install:
 		MsgBox, 262160, INSTALLATION FAILED, TCULauncher or a user file was not restored. Backups will be attempted and the installation will restart.
 		
 		backupFolder := A_Desktop . "\TCUBackup"
-		FileCreateDir %backupFolder%\data
+		FileCreateDir %backupFolder%\usr
 		
 		if (TCUiniEx=1) {
 			FileAppend, %TCUiniContents%, %backupFolder%\TCU.ini
 		}
 		if (AddonEx=1) {
-			FileAppend, %AddonContents%, %backupFolder%\data\addon.txt
+			FileAppend, %AddonContents%, %backupFolder%\usr\addon.txt
 		}
 		if (GosubEx=1) {
-			FileAppend, %GosubContents%, %backupFolder%\data\gosub.txt
+			FileAppend, %GosubContents%, %backupFolder%\usr\gosub.txt
 		}
 		if (SpecCharsEx=1) {
-			FileAppend, %SpecCharsContents%, %backupFolder%\data\SpecChars.txt
+			FileAppend, %SpecCharsContents%, %backupFolder%\usr\SpecChars.txt
 		}
 		
 		for n, param in A_Args  ; For each parameter:
@@ -410,17 +411,17 @@ process_backup:
 		TCUiniEx=1
 		FileRead, TCUiniContents, TCU.ini
 	}
-	if FileExist("data\addon.txt") {
+	if FileExist("usr\addon.txt") {
 		AddonEx=1
-		FileRead, AddonContents, data\addon.txt
+		FileRead, AddonContents, usr\addon.txt
 	}
-	if FileExist("data\gosub.txt") {
+	if FileExist("usr\gosub.txt") {
 		GosubEx=1
-		FileRead, GosubContents, data\gosub.txt
+		FileRead, GosubContents, usr\gosub.txt
 	}
-	if FileExist("data\SpecChars.txt") {
+	if FileExist("usr\SpecChars.txt") {
 		SpecCharsEx=1
-		FileRead, SpecCharsContents, data\SpecChars.txt
+		FileRead, SpecCharsContents, usr\SpecChars.txt
 	}
 return
 
