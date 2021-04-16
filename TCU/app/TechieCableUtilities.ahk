@@ -3,6 +3,7 @@ version = 1.0.12
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
 setworkingdir, ..\%A_scriptdir%
+T_ScriptDir := A_WorkingDir
 #SingleInstance Force
 #NoEnv
 #Persistent
@@ -270,7 +271,7 @@ return
 OpenTCUManual:
 	Gui, ManualGUI:New, +AlwaysOnTop +LabelGui, TCUManual
 	Gui, ManualGUI:Add, ActiveX, w500 h400 vShellTCUManual, Shell.Explorer
-	ShellTCUManual.Navigate(A_ScriptDir "\TCUManual.html")
+	ShellTCUManual.Navigate(T_ScriptDir "\TCUManual.html")
 	Gui, ManualGUI:Add, Button, Default gGUILabel, Close
 	Gui, ManualGUI:Show
 return
@@ -354,7 +355,7 @@ return
 ; ******************** GENERAL FUNCTIONS ********************
 
 OpenDirectory:
-	Run, %A_scriptdir%
+	Run, %T_ScriptDir%
 return
 
 RELOAD:
