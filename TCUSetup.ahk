@@ -2,10 +2,6 @@ version = 1.0.12
 ; WRITTEN BY TECHIECABLE
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
-dir := A_AppData . "\TechieCableUtilities"
-setworkingdir %dir%
-#SingleInstance Force
-
 ;@Ahk2Exe-SetCompanyName TechieCable
 ;@Ahk2Exe-SetCopyright (c) 2020-2021 TechieCable
 ;@Ahk2Exe-SetDescription TechieCableUtilities Setup Process
@@ -16,6 +12,11 @@ setworkingdir %dir%
 ;@Ahk2Exe-SetProductName TCUSetup
 ;@Ahk2Exe-SetProductVersion %U_Version%
 ;@Ahk2Exe-SetVersion %U_Version%
+
+dir := A_AppData . "\TechieCableUtilities"
+setworkingdir %dir%
+T_TEMP := A_Temp "\TCU.tmp"
+#SingleInstance Force
 
 ; ***** ERROR PREP *****
 
@@ -112,7 +113,8 @@ verifyDir(customDir, retry:=0) { ; returns 0 on success, 1 on failure, 2 on retr
 }
 
 ; ***** CREATE SETUPWIZARD PIC *****
-pic := A_Temp . "\setupwizard.png"
+FileCreateDir, %T_TEMP%
+pic := T_TEMP "\setupwizard.png"
 URLDownloadToFile, https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/setupwizard.png, %pic%
 
 ; ***** PROGRESS FUNC *****
@@ -212,7 +214,7 @@ Gui, 4:Add, Text, y+30 +Center c6A00A7 gLaunchDirectory, Open the TechieCableUti
 Gui, 4:Add, ActiveX, w0 h0 vinstall_analytics, Shell.Explorer
 install_analytics.silent := true
 
-Run, %comspec% /c "del /Q %pic%`nexit",, Hide
+Run, %comspec% /c "rmdir /s /q %T_TEMP%`nexit",, Hide
 
 ; _________________________________________
 ; |              SCRIPT ENDS              |
@@ -277,13 +279,13 @@ process_install:
 	; ***** CLOSE TCU *****
 	
 	IniRead, TechieCablePID, %dir%\TCU.ini, about, PID, CLOSED
-	if %TechieCablePID% not contains CLOSED
+	if TechieCablePID not contains CLOSED
 	{
 		Process, Close, %TechieCablePID%
 		Process, WaitClose, %TechieCablePID%
 	}
 	IniRead, LauncherPID, %dir%\TCU.ini, about, LauncherPID, CLOSED
-	if %LauncherPID% not contains CLOSED
+	if LauncherPID not contains CLOSED
 	{
 		Process, Close, %LauncherPID%
 		Process, WaitClose, %LauncherPID%
@@ -389,6 +391,7 @@ process_install:
 			%A_ScriptFullPath% %argumentList%
 			exit
 		)
+		Run, %comspec% /c "rmdir /s /q %T_TEMP%`nexit",, Hide
 		Run, %comspec% /c %commands%,, Hide
 		ExitApp
 	}
@@ -450,7 +453,7 @@ Finish_Install:
 		del /Q %A_Desktop%\TCUSetup.exe
 	)
 	Run, %comspec% /c "%commands%",, Hide
-	Run, %comspec% /c "del /Q %pic%`nexit",, Hide
+	Run, %comspec% /c "rmdir /s /q %T_TEMP%`nexit",, Hide
 	ExitApp
 return
 

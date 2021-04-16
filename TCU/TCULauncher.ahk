@@ -2,10 +2,6 @@ version = 1.0.12
 ; WRITTEN BY TECHIECABLE
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
-setworkingdir, %A_scriptdir%
-#SingleInstance Force
-#NoTrayIcon
-
 ;@Ahk2Exe-SetCompanyName TechieCable
 ;@Ahk2Exe-SetCopyright (c) 2020-2021 TechieCable
 ;@Ahk2Exe-SetDescription TechieCableUtilities Launcher Process
@@ -16,6 +12,11 @@ setworkingdir, %A_scriptdir%
 ;@Ahk2Exe-SetProductName TCULauncher
 ;@Ahk2Exe-SetProductVersion %U_Version%
 ;@Ahk2Exe-SetVersion %U_Version%
+
+setworkingdir, %A_scriptdir%
+T_TEMP := A_Temp "\TCU.tmp"
+#SingleInstance Force
+#NoTrayIcon
 
 #Include *i analytics.ahk
 
@@ -57,7 +58,7 @@ IniRead, TechieCablePID, TCU.ini, about, PID, CLOSED
 
 ; ***** STARTUP *****
 
-if %TechieCablePID% not contains CLOSED
+if TechieCablePID not contains CLOSED
 {
 	Process, Close, %TechieCablePID%
 	Process, WaitClose, %TechieCablePID%
@@ -141,13 +142,14 @@ Gui, Destroy
 return
 
 update:
-	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, %A_Temp%\TCUversion.txt ; Get the file
-	FileRead, versionText, %A_Temp%\TCUversion.txt ; Read the file
+	FileCreateDir, %T_TEMP%
+	URLDownloadToFile, https://api.github.com/repos/TechieCable/TechieCableUtilities/releases/latest, %T_TEMP%\TCUversion.txt ; Get the file
+	FileRead, versionText, %T_TEMP%\TCUversion.txt ; Read the file
 	RegExMatch(versionText, """tag_name"":""v(.*?)""", versionNum) ; Parse the file for version
 	RegExMatch(versionText, """body"":""(.*?)""", versionMessage) ; Parse the file for message
 	versionNum := versionNum1
 	versionMessage := StrReplace(versionMessage1, "\r\n", "`n") ; Fix linebreaks
-	Run %ComSpec% /c "del /q %A_Temp%\TCUversion.txt`nexit",, Hide ; Delete the file
+	Run, %comspec% /c "rmdir /s /q %T_TEMP%`nexit",, Hide ; Delete the temp
 	
 	Gui +OwnDialogs
 	if (versionNum = "" || versionMessage = "") {
