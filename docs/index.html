@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Techie Cable - TechieCableUtilities</title>
+	<base href="https://techiecable.github.io" target="_self">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta charset="UTF-8">
+	<meta name="description" content="TechieCable's Coding Website">
+	<meta name="keywords" content="HTML,CSS,Processing JavaScript,TechieCable">
+	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+	<link rel='icon' href='img/favicon.ico' type='image/x-icon'>
+	<link rel="stylesheet" href="css/links.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="js/headerload.js"></script>
+</head>
+<style>
+	html, body {
+		text-align: center;
+		background-color: rgb(71, 57, 116);
+		color: white;
+		font-size: 120%;
+		margin: 0px;
+		height: 100%;
+		width: 100%;
+	}
+	#bar {
+		width: 100%;
+		height: 4%;
+		background-color: rgb(28, 24, 42);
+	}
+	#section-flexer {
+		display: flex;
+		flex-direction: column;
+	}
+	.section {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+		align-items: center;
+		height: 30%;
+		padding: 5%;
+	}
+	.download {
+		margin: 1%;
+		border: 1em double rgb(28, 24, 42);
+		padding: 1%;
+		background-color: rgb(100, 80, 170);
+	}
+	.light {
+		background-color: rgb(97, 77, 163);
+	}
+	.dark {
+		background-color: rgb(55, 44, 89);
+	}
+	.right {
+		text-align: left;
+	}
+	.left {
+		text-align: right;
+	}
+	img.demo {
+		margin: 2%;
+	}
+</style>
+<body>
+	<include src="headermenu.html">Loading menus...</include>
+	
+	<!-- Front page -->
+	<div class="centering full">
+		<span class="front-header">TechieCableUtilities</span>
+	</div>
+	
+	<div id="bar"></div>
+	
+	<h1>TechieCableUtilities</h1>
+	<img id="TCU-icon" src="TechieCableUtilities/TCU.svg" height="10%">
+	<h5>A compilation of TechieCable's favorite tricks written with <a href="https://www.autohotkey.com">AutoHotkey</a>. The entire program is written in AutoHotkey, including the installer and launcher.</h5>
+	
+	<div class="centering"><a class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a></div>
+	
+	<div id="bar"></div>
+	
+	<div id="section-flexer">
+		<div class="light section">
+			<img class="demo" src="TechieCableUtilities/Demo-AOT.svg" width="40%"/>
+			<div class="right">
+				<h3>AlwaysOnTop</h3>
+				<p>
+					Pin a program "on top" of other programs!<br>
+					View a window above another by pressing the hotkey to pin it.
+				</p>
+			</div>
+		</div>
+		<div class="dark section">
+			<div class="left">
+				<h3>TouchPadToggle</h3>
+				<p>
+					For computers with a touchpad, but no easy way to toggle!<br>
+					Press the hotkey to turn the touchpad on/off.
+				</p>
+			</div>
+			<img class="demo" src="TechieCableUtilities/Demo-TouchPadToggle.svg" width="30%"/>
+		</div>
+		<div class="light section">
+			<img class="demo" src="TechieCableUtilities/Demo-SpecChars.svg" width="40%"/>
+			<div class="right">
+				<h3>Special Characters</h3>
+				<p>
+					Easily type character not available on the standard keyboard.<br>
+					Spanish accented characters (áéíóú), Spanish punctionuation (¿¡!?),<br>
+					math symbols (×÷≥≤), and number superscripts (x¹²³⁴) are easy to type.<br><br>
+					Need a special character included?<br>
+					TechieCableUtilities supports custom special characters as well!
+				</p>
+			</div>
+		</div>
+		<div class="dark section">
+			<div class="left">
+				<h3><span style="color:Yellow;">NEW:</span> AOT Menu</h3>
+				<p>
+					Bring up a list of all open windows and choose any one to pin "on top".<br>
+					Similar to AOT, but with a simple GUI and a list of available windows.
+				</p>
+			</div>
+			<img class="demo" src="TechieCableUtilities/Demo-AOTMenu.svg" width="30%"/>
+		</div>
+	</div>
+	
+	<div id="bar"></div>
+	
+	<div class="centering"><a style="width:40%;" class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a></div>
+	
+	<div id="blankspace"></div>
+</body>
+</html>
