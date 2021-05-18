@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 	<title>Techie Cable - TechieCableUtilities</title>
 	<base href="https://techiecable.github.io" target="_self">
@@ -15,7 +16,8 @@
 	<script src="js/headerload.js"></script>
 </head>
 <style>
-	html, body {
+	html,
+	body {
 		text-align: center;
 		background-color: rgb(71, 57, 116);
 		color: white;
@@ -24,15 +26,18 @@
 		height: 100%;
 		width: 100%;
 	}
+
 	#bar {
 		width: 100%;
 		height: 4%;
 		background-color: rgb(28, 24, 42);
 	}
+
 	#section-flexer {
 		display: flex;
 		flex-direction: column;
 	}
+
 	.section {
 		display: flex;
 		flex-direction: row;
@@ -41,50 +46,58 @@
 		height: 30%;
 		padding: 5%;
 	}
+
 	.download {
 		margin: 1%;
 		border: 1em double rgb(28, 24, 42);
 		padding: 1%;
 		background-color: rgb(100, 80, 170);
 	}
+
 	.light {
 		background-color: rgb(97, 77, 163);
 	}
+
 	.dark {
 		background-color: rgb(55, 44, 89);
 	}
+
 	.right {
 		text-align: left;
 	}
+
 	.left {
 		text-align: right;
 	}
+
 	img.demo {
 		margin: 2%;
 	}
 </style>
+
 <body>
 	<include src="headermenu.html">Loading menus...</include>
-	
+
 	<!-- Front page -->
 	<div class="centering full">
-		<span class="front-header">TechieCableUtilities</span>
+		<h1 class="front-header">TechieCableUtilities</h1>
 	</div>
-	
+
 	<div id="bar"></div>
-	
-	<h1>TechieCableUtilities</h1>
+
+	<h2>TechieCableUtilities</h2>
 	<img id="TCU-icon" src="TechieCableUtilities/TCU.svg" height="10%">
-	<h5>A compilation of TechieCable's favorite tricks written with <a href="https://www.autohotkey.com">AutoHotkey</a>.<br>
-		The entire program is written in AutoHotkey, including the installer and launcher.</h5>
-	
+	<h5>
+		A compilation of TechieCable's favorite tricks written with <a href="https://www.autohotkey.com">AutoHotkey</a>.<br>The entire program is written in AutoHotkey, including the installer and launcher.
+	</h5>
+
 	<div class="centering"><a class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a></div>
-	
+
 	<div id="bar"></div>
-	
+
 	<div id="section-flexer">
 		<div class="light section">
-			<img class="demo" src="TechieCableUtilities/Demo-AOT.svg" width="40%"/>
+			<img class="demo" src="TechieCableUtilities/Demo-AOT.svg" width="40%" />
 			<div class="right">
 				<h3>AlwaysOnTop</h3>
 				<p>
@@ -101,10 +114,10 @@
 					Press the hotkey to turn the touchpad on/off.
 				</p>
 			</div>
-			<img class="demo" src="TechieCableUtilities/Demo-TouchpadToggle.svg" width="30%"/>
+			<img class="demo" src="TechieCableUtilities/Demo-TouchpadToggle.svg" width="30%" />
 		</div>
 		<div class="light section">
-			<img class="demo" src="TechieCableUtilities/Demo-SpecChars.svg" width="40%"/>
+			<img class="demo" src="TechieCableUtilities/Demo-SpecChars.svg" width="40%" />
 			<div class="right">
 				<h3>Special Characters</h3>
 				<p>
@@ -124,20 +137,21 @@
 					Similar to AOT, but with a simple GUI and a list of available windows.
 				</p>
 			</div>
-			<img class="demo" src="TechieCableUtilities/Demo-AOTMenu.svg" width="30%"/>
+			<img class="demo" src="TechieCableUtilities/Demo-AOTMenu.svg" width="30%" />
 		</div>
 	</div>
-	
+
 	<div id="bar"></div>
-	
+
 	<div class="centering">
 		<a style="width:40%;" class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a>
 	</div>
-	
+
 	<h4>View releases and release notes <a href="https://github.com/TechieCable/TechieCableUtilities/releases/latest">on Github</a>.</h4>
-	
+
 	<div id="bar"></div>
-	
+
 	<div id="blankspace"></div>
 </body>
+
 </html>
