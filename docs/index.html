@@ -1,157 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<title>Techie Cable - TechieCableUtilities</title>
+	<title>TechieCable - TechieCableUtilities</title>
 	<base href="https://techiecable.github.io" target="_self">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="UTF-8">
 	<meta name="description" content="TechieCable's Coding Website">
-	<meta name="keywords" content="HTML,CSS,Processing JavaScript,TechieCable,TechieCableUtilities">
+	<meta name="keywords" content="HTML,CSS,Processing JavaScript,TechieCable">
 	<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 	<link rel='alternate icon' href='img/favicon.ico' type='image/x-icon'>
-	<link rel="stylesheet" href="css/links.css">
-	<link rel="stylesheet" href="css/style.css">
+	
+	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="js/headerload.js"></script>
+	<script src="js/includes.js"></script>
+	
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-QW9ZGL7K7W"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		
+		gtag('config', 'G-QW9ZGL7K7W');
+	</script>
+	<!-- End Site Tag - Google Analytics -->
 </head>
 <style>
-	html,
-	body {
-		text-align: center;
-		background-color: rgb(71, 57, 116);
-		color: white;
-		font-size: 120%;
-		margin: 0px;
-		height: 100%;
-		width: 100%;
+	html, body {
+		background: white;
+		color: black;
 	}
-
-	#bar {
-		width: 100%;
-		height: 4%;
-		background-color: rgb(28, 24, 42);
-	}
-
-	#section-flexer {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.section {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-evenly;
-		align-items: center;
-		height: 30%;
-		padding: 5%;
-	}
-
 	.download {
 		margin: 1%;
-		border: 1em double rgb(28, 24, 42);
+		border: 1em double;
 		padding: 1%;
-		background-color: rgb(100, 80, 170);
 	}
-
-	.light {
-		background-color: rgb(97, 77, 163);
-	}
-
-	.dark {
-		background-color: rgb(55, 44, 89);
-	}
-
-	.right {
-		text-align: left;
-	}
-
-	.left {
-		text-align: right;
-	}
-
-	img.demo {
-		margin: 2%;
+	#headermenuNav, #tc-footer {
+		background: grey;
+		background: grey;
+		color: white;
 	}
 </style>
-
 <body>
-	<include src="headermenu.html">Loading menus...</include>
-
-	<!-- Front page -->
-	<div class="centering full">
-		<h1 class="front-header">TechieCableUtilities</h1>
+	<div class="row mb-auto">
+		<include src="headermenu.html">Loading menus...</include>
 	</div>
-
-	<div id="bar"></div>
-
-	<h2>TechieCableUtilities</h2>
-	<img id="TCU-icon" src="TechieCableUtilities/TCU.svg" height="10%">
-	<h5>
-		A compilation of TechieCable's favorite tricks written with <a href="https://www.autohotkey.com">AutoHotkey</a>.<br>The entire program is written in AutoHotkey, including the installer and launcher.
-	</h5>
-
-	<div class="centering"><a class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a></div>
-
-	<div id="bar"></div>
-
-	<div id="section-flexer">
-		<div class="light section">
-			<img class="demo" src="TechieCableUtilities/Demo-AOT.svg" width="40%" />
-			<div class="right">
-				<h3>AlwaysOnTop</h3>
-				<p>
-					Pin a program "on top" of other programs!<br>
-					View a window above another by pressing the hotkey to pin it.
+	
+	<div class="container-fluid">
+		<div class="row text-center bg-light p-3 p-md-5 m-md-3 mt-5">
+			<div class="col-xxl-5 p-lg-5 mx-auto my-1">
+				<h1 class="display-1">TechieCableUtilities</h1>
+				<p class="lead">
+					A compilation of TechieCable's favorite tricks written with <a href="https://www.autohotkey.com">AutoHotkey</a>. The entire program is written in AutoHotkey, including the installer and launcher.
 				</p>
+				<a class="btn btn-outline-primary download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a>
+			</div>
+			<div class="col-xxl-3"></div>
+			<div class="col-xxl-2 mx-auto my-1 flex-column d-flex align-items-center">
+				<a href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe"><img id="TCU-icon" src="TechieCableUtilities/TCU.svg" height="70%"></a>
 			</div>
 		</div>
-		<div class="dark section">
-			<div class="left">
-				<h3>TouchPadToggle</h3>
-				<p>
-					For computers with a touchpad, but no easy way to toggle!<br>
-					Press the hotkey to turn the touchpad on/off.
-				</p>
+		
+		<div class="row row-cols-1 row-cols-xl-2 w-100 m-0">
+			<div class="my-3">
+				<div class="bg-dark text-center text-white overflow-hidden">
+					<div class="my-3 py-3">
+						<h2 class="display-5">AlwaysOnTop</h2>
+						<p class="lead">
+							Pin a program "on top" of other programs!<br>View a window above another by pressing the hotkey to pin it.
+						</p>
+					</div>
+					<img class="demo mb-5" src="TechieCableUtilities/Demo-AOT.svg" width="70%"/>
+				</div>
 			</div>
-			<img class="demo" src="TechieCableUtilities/Demo-TouchpadToggle.svg" width="30%" />
-		</div>
-		<div class="light section">
-			<img class="demo" src="TechieCableUtilities/Demo-SpecChars.svg" width="40%" />
-			<div class="right">
-				<h3>Special Characters</h3>
-				<p>
-					Easily type character not available on the standard keyboard.<br>
-					Spanish accented characters (áéíóú), Spanish punctionuation (¿¡!?),<br>
-					math symbols (×÷≥≤), and number superscripts (x¹²³⁴) are easy to type.<br><br>
-					Need a special character included?<br>
-					TechieCableUtilities supports custom special characters as well!
-				</p>
+			<div class="my-3">
+				<div class="bg-light text-center overflow-hidden">
+					<div class="my-3 py-3">
+						<h2 class="display-5">TouchPadToggle</h2>
+						<p class="lead">
+							For computers with a touchpad, but no easy way to toggle!<br>
+							Press the hotkey to turn the touchpad on/off.
+						</p>
+					</div>
+					<img class="demo mb-5" src="TechieCableUtilities/Demo-TouchpadToggle.svg" width="50%"/>
+				</div>
 			</div>
-		</div>
-		<div class="dark section">
-			<div class="left">
-				<h3><span style="color:Yellow;">NEW:</span> AOT Menu</h3>
-				<p>
-					Bring up a list of all open windows and choose any one to pin "on top".<br>
-					Similar to AOT, but with a simple GUI and a list of available windows.
-				</p>
+			<div class="my-3">
+				<div class="bg-dark text-center text-white overflow-hidden">
+					<div class="my-3 py-3">
+						<h2 class="display-5">Special Characters</h2>
+						<p class="lead">
+							Easily type character not available on the standard keyboard.<br>
+							Spanish accented characters (áéíóú), Spanish punctionuation (¿¡!?),<br>
+							math symbols (×÷≥≤), and number superscripts (x¹²³⁴) are easy to type.<br>
+							Need a special character included?<br>
+							TechieCableUtilities supports custom special characters as well!
+						</p>
+					</div>
+					<img class="demo mb-5" src="TechieCableUtilities/Demo-SpecChars.svg" width="60%"/>
+				</div>
 			</div>
-			<img class="demo" src="TechieCableUtilities/Demo-AOTMenu.svg" width="30%" />
+			<div class="my-3">
+				<div class="bg-light text-center overflow-hidden">
+					<div class="my-3 py-3">
+						<h2 class="display-5"><span style="color:Yellow;">NEW:</span> AOT Menu</h2>
+						<p class="lead">
+							Bring up a list of all open windows and choose any one to pin "on top".<br>
+							Similar to AOT, but with a simple GUI and a list of available windows.<br><br>
+						</p>
+					</div>
+					<img class="demo mb-5" src="TechieCableUtilities/Demo-AOTMenu.svg" width="60%"/>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<div id="bar"></div>
-
-	<div class="centering">
-		<a style="width:40%;" class="download" href="https://github.com/TechieCable/TechieCableUtilities/releases/latest/download/TCUSetup.exe">Download!</a>
-	</div>
-
-	<h4>View releases and release notes <a href="https://github.com/TechieCable/TechieCableUtilities/releases/latest">on Github</a>.</h4>
-
-	<div id="bar"></div>
-
-	<div id="blankspace"></div>
+	<div class="row my-5 py-5"></div>
+	
+	<include src="footermenu.html">Loading footer...</include>
+	
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
-
 </html>
