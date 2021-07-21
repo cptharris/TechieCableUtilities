@@ -1,5 +1,5 @@
 version = 1.0.12
-; WRITTEN BY TECHIECABLE
+; Copyright (c) TechieCable 2020-2021
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher
 setworkingdir, ..\%A_scriptdir%
@@ -297,6 +297,7 @@ GUILabel: ; For buttons fired in above GUIs
 			IniWrite, %AOT_key%, TCU.ini, hotkey, AOT_key
 			IniWrite, %AOTMenu_key%, TCU.ini, hotkey, AOTMenu_key
 			IniWrite, %TouchPad_key%, TCU.ini, hotkey, TouchPad_key
+			FileRead, lastFileContent, TCU.ini
 			
 			try {
 				Hotkey, %AOT_key%, On
@@ -422,11 +423,11 @@ return
 ; ******************** TOPMENU FUNCTIONS ********************
 
 Top_Web:
-	Run https://techiecable.github.io
+	Run https://techiecable.github.io/TechieCableUtilities/
 return
 
 Top_Remove:
-	MsgBox, 262211, Remove TechieCableUtilities, You are about to remove TechieCableUtilities from your computer.`nPress "Yes" to create a backup of your settings and delete TechieCableUtilities. Press "No" to delete TechieCableUtilities without a backup. Press "Cancel" to cancel the deletion
+	MsgBox, 262211, Remove TechieCableUtilities, You are about to remove TechieCableUtilities from your computer.`nPress "Yes" to create a backup of your settings and delete TechieCableUtilities. Press "No" to delete TechieCableUtilities without a backup. Press "Cancel" to cancel the deletion.
 	IfMsgBox Yes
 		gosub, Top_Backup
 	IfMsgBox Cancel
@@ -443,16 +444,22 @@ rmdir /s /q "TechieCableUtilities"
 return
 
 Top_Backup:
-	backupFolder := A_Desktop . "\TCUBackup"
+	IniRead, backupFolder, TCU.ini, config, defaultBackupFolder, %A_Space%
+	Loop
+	{
+		if (backupFolder != "")
+			break
+		FileSelectFolder, backupFolder, *%A_Desktop%, 3, Select Default Backup Location
+		if !InStr(backupFolder, "TCUBackup")
+			backupFolder .= "\TCUBackup"
+	}
+	IniWrite, %backupFolder%, TCU.ini, config, defaultBackupFolder
+	FileRead, lastFileContent, TCU.ini
+	
 	FileCreateDir, %backupFolder%
 	FileCreateDir, %backupFolder%\usr
 	FileCopy, TCU.ini, %backupFolder%\TCU.ini, 1
-	if FileExist("usr\addon.txt")
-		FileCopy, usr\addon.txt, %backupFolder%\usr\addon.txt, 1
-	if FileExist("usr\gosub.txt")
-		FileCopy, usr\gosub.txt, %backupFolder%\usr\gosub.txt, 1
-	if FileExist("usr\SpecChars.txt")
-		FileCopy, usr\SpecChars.txt, %backupFolder%\usr\SpecChars.txt, 1
+	FileCopyDir, usr, %backupFolder%\usr, 1
 	IniDelete, %backupFolder%\TCU.ini, about
 	MsgBox, 262212, TCUBackup Created, TCUBackup was created.`nView the backup folder?
 	IfMsgBox Yes

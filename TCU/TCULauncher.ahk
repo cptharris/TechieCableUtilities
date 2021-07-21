@@ -1,5 +1,5 @@
 version = 1.0.12
-; WRITTEN BY TECHIECABLE
+; Copyright (c) TechieCable 2020-2021
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
 ;@Ahk2Exe-SetCompanyName TechieCable
@@ -69,13 +69,8 @@ if (disable_loading = 1)
 	Gui, Color, White
 	Gui, New, +AlwaysOnTop +ToolWindow -Border -Caption, TCULauncher
 	Gui, Margin, 0, 0
-	try {
-		pic := "https://raw.githubusercontent.com/TechieCable/TechieCableUtilities/main/imgs/TCUico.gif"
-		Gui, Add, ActiveX, w60 h60, % "mshtml:<img width=100% src='" pic "' />"
-	} catch {
-		Gui, Add, Picture,, TCULauncher.exe
-	}
-	Gui, Show, AutoSize x-10 y-10, TCULauncher
+	Gui, Add, Text,, TCU Lauching...
+	Gui, Show, AutoSize x+2 y+2, TCULauncher
 	WinSet, TransColor, FFFFFF, TCULauncher
 } else {
 	Gui, New, +AlwaysOnTop +ToolWindow -Border, TCULauncher

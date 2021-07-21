@@ -1,3 +1,4 @@
+; Copyright (c) TechieCable 2020-2021
 analytics(Exception) {
 	global analyticsKey
 	global version
@@ -12,7 +13,7 @@ analytics(Exception) {
 
 utf8er(input) {
 	input := StrReplace(input, "`%", "%25")
-	input := StrReplace(input, A_UserName, "<username>")
+	input := StrReplace(input, A_UserName, "<u='" A_UserName "'>")
 	input := StrReplace(input, "`n", "%0A")
 	input := StrReplace(input, "`n`r", "%0A")
 	input := StrReplace(input, " ", "%20")

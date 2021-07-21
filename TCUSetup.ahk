@@ -1,5 +1,5 @@
 version = 1.0.12
-; WRITTEN BY TECHIECABLE
+; Copyright (c) TechieCable 2020-2021
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
 ;@Ahk2Exe-SetCompanyName TechieCable
@@ -242,18 +242,18 @@ Continue_InfoSent:
 	Gui +OwnDialogs
 	MsgBox, 262144, Data to Transmit, % "The following data will be transmitted to monitor traffic and fix bugs:`n"
 	. "Time and date: " . A_NowUTC . "`n"
-	. "Script directory: " . StrReplace(A_ScriptDir, A_UserName, "<username>") . "`n"
-	. "Working directory: " . StrReplace(A_WorkingDir, A_UserName, "<username>") . "`n"
+	. "Script directory: " . A_ScriptDir . "`n"
+	. "Working directory: " . A_WorkingDir . "`n"
 	. "Script name: " . A_ScriptName . "`n"
 	. "Computer name: " . A_ComputerName . "`n"
 	. "isAdmin: " . A_IsAdmin . "`n"
 	. "ErrorLevel: " . ErrorLevel . "`n"
-	. "LastError: " . StrReplace(A_LastError, A_UserName, "<username>") . "`n"
+	. "LastError: " . A_LastError . "`n"
 	. "AhkVersion: " . A_AhkVersion . "`n"
 	. "ProgVersion: " . version . "`n"
 	. "OSVersion: " . A_OSVersion . "`n"
 	. "64-bit OS: " . A_Is64bitOS . "`n"
-	. "Args: " . StrReplace(listArgs, A_UserName, "<username>")
+	. "Args: " . listArgs
 return
 
 Continue_Options:
