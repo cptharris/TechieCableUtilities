@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<filter id="blur" x="0" y="0" width="3" height="3" color-interpolation-filters="sRGB">
+			<feGaussianBlur stdDeviation="4"/>
+		</filter>
+		<filter id="fuzzz" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+			<feGaussianBlur stdDeviation="0.5"/>
+		</filter>
+	</defs>
+	<symbol id="AlwaysOnTop">
+		<rect x="0" y="10" width="290" height="170" fill="#e6e6e6" stroke="#ffff00" stroke-width=".5"/>
+		<text x="2" y="20" font-size="10" font-weight="bold">Active Window</text>
+		<rect x="40" y="35" width="180" height="20" fill="#9a9a9a"/>
+		<rect x="5" y="35" width="30" height="140" fill="#9a9a9a"/>
+		<rect x="110" y="0" width="280" height="170" fill="#e6e6e6" stroke="#000" stroke-width=".5"/>
+		<text x="112" y="10" font-size="10" font-weight="bold">AlwaysOnTop Window</text>
+		<rect x="150" y="25" width="180" height="20" fill="#9a9a9a"/>
+		<rect x="115" y="25" width="30" height="140" fill="#9a9a9a"/>
+		<g fill="#ffdc7d" stroke="#666" stroke-width=".3" transform="translate(50 55)">
+			<rect x="0" y="10" width="13" height="13"/>
+			<rect x="0" y="25" width="13" height="13"/>
+			<rect x="0" y="40" width="13" height="13"/>
+			<rect x="0" y="60" width="13" height="13"/>
+			<rect x="0" y="75" width="13" height="13"/>
+			<rect x="0" y="90" width="13" height="13"/>
+			<rect x="110" y="0" width="13" height="13"/>
+			<rect x="110" y="15" width="13" height="13"/>
+			<rect x="110" y="30" width="13" height="13"/>
+			<rect x="110" y="50" width="13" height="13"/>
+			<rect x="110" y="65" width="13" height="13"/>
+			<rect x="110" y="80" width="13" height="13"/>
+			<rect x="180" y="0" width="13" height="13"/>
+			<rect x="180" y="15" width="13" height="13"/>
+			<rect x="180" y="50" width="13" height="13"/>
+			<rect x="180" y="65" width="13" height="13"/>
+			<rect x="180" y="80" width="13" height="13"/>
+			<rect x="250" y="0" width="13" height="13"/>
+			<rect x="250" y="15" width="13" height="13"/>
+			<rect x="250" y="50" width="13" height="13"/>
+			<rect x="250" y="65" width="13" height="13"/>
+		</g>
+		<g fill="#000" transform="translate(70 58)">
+			<rect x="0" y="10" width="19" height="2" filter="url(#blur)"/>
+			<rect x="0" y="25" width="22" height="2" filter="url(#blur)"/>
+			<rect x="0" y="40" width="21" height="2" filter="url(#blur)"/>
+			<rect x="0" y="60" width="17" height="2" filter="url(#blur)"/>
+			<rect x="0" y="75" width="19" height="2" filter="url(#blur)"/>
+			<rect x="0" y="90" width="22" height="2" filter="url(#blur)"/>
+			<rect x="110" y="0" width="23" height="2" filter="url(#blur)"/>
+			<rect x="110" y="15" width="19" height="2" filter="url(#blur)"/>
+			<rect x="110" y="30" width="21" height="2" filter="url(#blur)"/>
+			<rect x="110" y="50" width="18" height="2" filter="url(#blur)"/>
+			<rect x="110" y="65" width="22" height="2" filter="url(#blur)"/>
+			<rect x="110" y="80" width="17" height="2" filter="url(#blur)"/>
+			<rect x="180" y="0" width="22" height="2" filter="url(#blur)"/>
+			<rect x="180" y="15" width="19" height="2" filter="url(#blur)"/>
+			<rect x="180" y="50" width="21" height="2" filter="url(#blur)"/>
+			<rect x="180" y="65" width="22" height="2" filter="url(#blur)"/>
+			<rect x="180" y="80" width="17" height="2" filter="url(#blur)"/>
+			<rect x="250" y="0" width="18" height="2" filter="url(#blur)"/>
+			<rect x="250" y="15" width="21" height="2" filter="url(#blur)"/>
+			<rect x="250" y="50" width="22" height="2" filter="url(#blur)"/>
+			<rect x="250" y="65" width="17" height="2" filter="url(#blur)"/>
+		</g>
+	</symbol>
+	<symbol id="TouchPadToggle" stroke="#000" stroke-width=".3">
+		<rect x="0" y="0" width="85" height="65" ry="3.5" fill="#a3a3a3"/>
+		<rect x="3" y="2" width="80" height="60" ry="3.5" fill="#636363"/>
+		<rect x="3" y="51" width="40" height="12" fill="#474747"/>
+		<rect x="43" y="51" width="40" height="12" fill="#474747"/>
+	</symbol>
+	<symbol id="SpecChars">
+		<g fill="#4d4d4d">
+			<!-- Line One -->
+			<rect x="0" y="0" width="10" height="10" fill="#fbf000"/>
+			<rect x="15" y="0" width="10" height="10"/>
+			<rect x="30" y="0" width="10" height="10"/>
+			<rect x="45" y="0" width="10" height="10"/>
+			<rect x="60" y="0" width="10" height="10"/>
+			<rect x="75" y="0" width="10" height="10"/>
+			<rect x="90" y="0" width="10" height="10"/>
+			<rect x="105" y="0" width="10" height="10"/>
+			<rect x="120" y="0" width="10" height="10"/>
+			<rect x="135" y="0" width="10" height="10"/>
+			<rect x="150" y="0" width="10" height="10"/>
+			<rect x="165" y="0" width="10" height="10"/>
+			<rect x="180" y="0" width="10" height="10"/>
+			<rect x="195" y="0" width="20" height="10"/>
+			<!-- Line Two -->
+			<rect x="0" y="15" width="15" height="10"/>
+			<rect x="20" y="15" width="10" height="10"/>
+			<rect x="35" y="15" width="10" height="10" fill="#fbf000"/>
+			<rect x="50" y="15" width="10" height="10"/>
+			<rect x="65" y="15" width="10" height="10"/>
+			<rect x="80" y="15" width="10" height="10"/>
+			<rect x="95" y="15" width="10" height="10"/>
+			<rect x="110" y="15" width="10" height="10" fill="#fbf000"/>
+			<rect x="125" y="15" width="10" height="10" fill="#fbf000"/>
+			<rect x="140" y="15" width="10" height="10" fill="#fbf000"/>
+			<rect x="155" y="15" width="10" height="10"/>
+			<rect x="170" y="15" width="10" height="10"/>
+			<rect x="185" y="15" width="10" height="10"/>
+			<rect x="200" y="15" width="15" height="10"/>
+			<!-- Line Three -->
+			<rect x="0" y="30" width="20" height="10"/>
+			<!-- x=xp+18.2, y=yp+0.5 -->
+			<rect x="18.2" y="30.5" width="1" height="2" fill="#AAA"/>
+			<rect x="25" y="30" width="10" height="10" fill="#fbf000"/>
+			<rect x="40" y="30" width="10" height="10"/>
+			<rect x="55" y="30" width="10" height="10"/>
+			<rect x="70" y="30" width="10" height="10"/>
+			<!-- x=xp+3.5, y=yp+8.5 -->
+			<rect x="73.5" y="38.5" width="3" height=".7" fill="#000"/>
+			<rect x="85" y="30" width="10" height="10"/>
+			<rect x="100" y="30" width="10" height="10"/>
+			<rect x="115" y="30" width="10" height="10"/>
+			<!-- x=xp+3.5, y=yp+8.5 -->
+			<rect x="118.5" y="38.5" width="3" height=".7" fill="#000"/>
+			<rect x="130" y="30" width="10" height="10"/>
+			<rect x="145" y="30" width="10" height="10"/>
+			<rect x="160" y="30" width="10" height="10"/>
+			<rect x="175" y="30" width="10" height="10"/>
+			<rect x="190" y="30" width="25" height="10"/>
+			<!-- Line Four -->
+			<rect x="0" y="45" width="30" height="10"/>
+			<rect x="35" y="45" width="10" height="10"/>
+			<rect x="50" y="45" width="10" height="10"/>
+			<rect x="65" y="45" width="10" height="10"/>
+			<rect x="80" y="45" width="10" height="10"/>
+			<rect x="95" y="45" width="10" height="10"/>
+			<rect x="110" y="45" width="10" height="10"/>
+			<rect x="125" y="45" width="10" height="10"/>
+			<rect x="140" y="45" width="10" height="10" fill="#fbf000"/>
+			<rect x="155" y="45" width="10" height="10" fill="#fbf000"/>
+			<rect x="170" y="45" width="10" height="10"/>
+			<rect x="185" y="45" width="30" height="10"/>
+			<!-- Line Five -->
+			<rect x="0" y="60" width="15" height="10"/>
+			<rect x="20" y="60" width="8" height="10"/>
+			<rect x="33" y="60" width="8" height="10"/>
+			<rect x="46" y="60" width="10" height="10"/>
+			<rect x="61" y="60" width="84" height="10"/>
+			<rect x="150" y="60" width="10" height="10"/>
+			<rect x="165" y="60" width="10" height="10"/>
+			<g transform="translate(180 65)">
+				<rect x="1" y="0" width="8" height="5"/>
+				<rect x="14" y="-6" width="8" height="5"/>
+				<rect x="14" y="0" width="8" height="5"/>
+				<rect x="27" y="0" width="8" height="5"/>
+			</g>
+		</g>
+	</symbol>
+	<symbol id="AOTMenu">
+		<rect x="0" y="0" width="200" height="105" fill="#f2f2f2" stroke="#ccc"/>
+		<text x="2" y="8" font-size="8">AlwaysOnTop Selector</text>
+		<g fill="#000" transform="translate(10 20)">
+			<rect x="0" y="0" width="15" height="1" filter="url(#blur)"/>
+			<rect x="0" y="11" width="65" height="1" filter="url(#blur)"/>
+			<rect x="0" y="22" width="84" height="1" filter="url(#blur)"/>
+			<rect x="0" y="33" width="74" height="1" filter="url(#blur)"/>
+			<rect x="0" y="44" width="96" height="1" filter="url(#blur)"/>
+			<rect x="0" y="55" width="45" height="1" filter="url(#blur)"/>
+			<rect x="0" y="66" width="76" height="1" filter="url(#blur)"/>
+			<rect x="0" y="77" width="59" height="1" filter="url(#blur)"/>
+		</g>
+		<g fill="#00f" transform="translate(3 19.5)">
+			<rect x="0" y="33" width="4" height="4" filter="url(#fuzzz)"/>
+			<rect x="0" y="55" width="4" height="4" filter="url(#fuzzz)"/>
+		</g>
+	</symbol>
+</svg>
