@@ -1,4 +1,4 @@
-version = 1.0.12
+version = 1.0.13
 ; Copyright (c) TechieCable 2020-2021
 
 ; settings_cog.ico, TCUManual.html, and TCU.ini are created by TCULauncher

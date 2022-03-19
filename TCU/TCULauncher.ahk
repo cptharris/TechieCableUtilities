@@ -1,4 +1,4 @@
-version = 1.0.12
+version = 1.0.13
 ; Copyright (c) TechieCable 2020-2021
 ;@Ahk2Exe-Let Version = %A_PriorLine~^version = (.+)$~$1%
 
@@ -69,7 +69,7 @@ if (disable_loading = 1)
 	Gui, Color, White
 	Gui, New, +AlwaysOnTop +ToolWindow -Border -Caption, TCULauncher
 	Gui, Margin, 0, 0
-	Gui, Add, Text,, TCU Lauching...
+	Gui, Add, Text,, TCU Launching...
 	Gui, Show, AutoSize x+2 y+2, TCULauncher
 	WinSet, TransColor, FFFFFF, TCULauncher
 } else {
