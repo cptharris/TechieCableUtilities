@@ -1,3 +1,9 @@
+# this project has been discontinued
+
+It was a fun experiment in building an actual program that ran on some real computers. However, I am moving on to different things.
+
+All of that said, it might still work 🤷. Use at your own risk ⚠️.
+
 # TechieCableUtilities
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/techiecable/techiecableutilities/latest?label=commits%20since%20latest%20release)
 ![GitHub Release Date](https://img.shields.io/github/release-date/techiecable/techiecableutilities?label=lastest%20release%20date)
